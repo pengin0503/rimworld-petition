@@ -1,0 +1,245 @@
+# 陳情と交渉(Petitions)設計書
+
+- 日付: 2026-10-22
+- 対象: RimWorld 1.7(Waylith エンジン / .NET 10)専用
+- 状態: 設計案(レビュー待ち)
+
+## 1. 目的
+
+不満が精神崩壊として「突然」表に出る前に、入植者が**具体的な要求(陳情)**として声を上げる経路を作る。プレイヤーは陳情に応じるか、説得するか、却下するかを選び、その結果が入植者の気分・関係・行動に段階的に返ってくる。
+
+### 1.1 背景(コミュニティの声)
+
+- 精神崩壊が「状況と無関係に見える」「手の打ちようがない」という不満が繰り返し出ている。一方で、気分の閾値を見れば予測できるという反論もある(Steam 公式掲示板)。
+- Psychology MOD には「不満のある入植者が市長を訪ねる」仕組みがあるが、何が不満なのかが分からないという指摘がある。
+- 既存MODとの違い: Psychology は訪問の中身がない。EchoColony は LLM を使った自由会話。Rimocracy は指導者の政策決定。**具体的な不満を、交渉できる要求に変換する**仕組みは見当たらなかった。
+
+### 1.2 成功の基準
+
+1. プレイヤーが陳情を見て、**何が不満で、何をすれば解消するか**が分かる。
+2. どの選択肢を選んでも、損得がはっきりした結果になる。たとえば受諾は約束を守る手間、却下は不満の蓄積、説得は失敗のリスク。
+3. 頻度が既定値のままでも、マイクロ管理が苦痛にならない(目安: 入植者10人で数日に1件以下)。
+4. バニラの精神崩壊の仕組みには手を入れない(§9 の未決事項を参照)。
+5. 途中のセーブに導入しても壊れない。
+
+### 1.3 スコープ外(MVP)
+
+- LLM による自由会話
+- バニラの精神崩壊の確率や閾値の変更
+- 奴隷・囚人・子供の陳情
+- 他MOD(Psychology など)との連携パッチ
+
+## 2. 中心となる仕組み
+
+```
+思考(Thought) ──走査──▶ 不満圧(Pressure) ──閾値──▶ 陳情(Petition) ──応答──▶ 結果
+                                                        │                   │
+                                                  連名(Cosigners)      恨み(Resentment)
+                                                                            │
+                                                                     段階的エスカレーション
+```
+
+### 2.1 不満の種類(GrievanceDef)
+
+不満は **ThoughtDef の束**として XML で定義する。バニラの思考をそのまま「不満の証拠」として使うので、イデオロギーで許容されている行為(臓器摘出を容認する戒律など)からは自然に陳情が出ない。
+
+不満には2つの型がある。
+
+| 型 | 意味 | 約束の中身 | 達成の判定 | 違反の判定 |
+|---|---|---|---|---|
+| `Remedy`(是正) | 状況を改善してほしい | 期限 `promiseDays` 以内に改善する | 署名者全員で、該当する思考が `remedyHoldDays` 日連続で消えている | 期限切れ |
+| `Cessation`(停止) | ある行為をやめてほしい | `promiseDays` 日間、その行為をしない | 期間を満了する | 受諾した後に生じた該当の記憶思考が、署名者に付く |
+
+`Cessation` に含める思考は記憶思考(`Thought_Memory`)に限る。記憶思考は `age` で「受諾の後に生じたか」を判定できるが、状況思考ではそれができないためである。この制約は `ConfigErrors` で検証する。
+
+#### MVP の不満一覧(Core の思考だけで構成)
+
+気分の値は添付の 1.7 Core データから抽出した。
+
+| defName(案) | 型 | 対象の思考(気分) | 要求の文面(例) |
+|---|---|---|---|
+| `Petitions_Sleeping` | Remedy | SleptInBarracks(-7〜-1)、SleptOutside(-4)、SleptOnGround(-4) | 「まともな寝床が欲しい」 |
+| `Petitions_Dining` | Remedy | AteWithoutTable(-3)、AteRawFood(-7)、AteKibble(-12) | 「人間らしい食事を」 |
+| `Petitions_Recreation` | Remedy | NeedJoy の負の段階(-5〜-20) | 「休みと娯楽を」 |
+| `Petitions_Corpses` | Remedy | ObservedLayingCorpse(-4)、ObservedLayingRottingCorpse(-6)、ColonistLeftUnburied(-10) | 「遺体を弔ってほしい」 |
+| `Petitions_OrganHarvest` | Cessation | KnowGuestOrganHarvested(-5)、KnowColonistOrganHarvested(-5) | 「臓器摘出をやめてほしい」 |
+| `Petitions_Executions` | Cessation | KnowGuestExecuted(-2〜-6)、KnowColonistExecuted(-2〜-6) | 「処刑をやめてほしい」 |
+| `Petitions_PrisonerSale` | Cessation | KnowPrisonerSold(-3) | 「人を売るのはやめてほしい」 |
+| `Petitions_Cannibalism` | Cessation | KnowButcheredHumanlikeCorpse(-6) | 「人を解体するのはやめてほしい」 |
+
+DLC の思考(イデオロギーの戒律思考など)は `MayRequire` を付けて後から追加できる。
+
+### 2.2 不満圧(Pressure)
+
+単位は「気分ポイント×日」。1時間(2500 tick)ごとに、入植者×不満の組ごとに更新する。
+
+- `severity` = その不満に該当する、負の気分思考の気分オフセットの合計の絶対値。正の段階(「非常に印象的な相部屋」など)は数えない。
+- `severity > 0` のとき: `pressure += severity / 24 × moodFactor`
+  - `moodFactor = 1 + 2 × max(0, 0.5 − 現在の気分)`。気分が低いほど不満は早く溜まる(気分 0.2 なら 1.6 倍)。
+- `severity = 0` のとき: `pressure = max(0, pressure − decayPerDay / 24)`(既定 `decayPerDay = 3`)
+- 陳情を出したら、本人と連名者のその不満の圧は 0 に戻す。
+
+閾値は既定で `pressureThreshold = 25` とする。目安は次のとおり。
+
+- 平凡な相部屋(-4)が毎日続くと、およそ6日で陳情になる。
+- 臓器摘出を1回知る(-5 が8日間)と、およそ5日で陳情になる。
+
+### 2.3 陳情の発生と連名
+
+時間ごとの更新の最後に、次の手順で最大1件の陳情を作る。
+
+1. 候補は `pressure ≥ threshold` の(入植者, 不満)の組。
+2. 頻度の制限(§2.6)を満たさない候補は除く。
+3. `pressure / threshold` が最大の組を選ぶ。
+4. **連名**: 同じ不満の圧が `threshold × cosignFraction`(既定 0.5)以上の他の入植者を、連名者として加える。
+5. 自動応答の方針(§2.6)が「確認」なら、手紙で判断を求める。
+
+陳情できる入植者の条件: プレイヤー勢力の自由入植者で、人型の大人。奴隷・クエストの滞在者は除く。気分の需要を持ち、プレイヤーの拠点マップにいて、精神状態異常でも行動不能でもないこと。
+
+### 2.4 応答と結果
+
+陳情の手紙(`ChoiceLetter_Petition`)の選択肢は次の4つ。
+
+| 応答 | 即時の効果 | その後 |
+|---|---|---|
+| **受諾する** | 署名者に「陳情が聞き入れられた」(+3、3日)。恨み −10 | Remedy は期限内に改善、Cessation は期間中に行為をしない。達成すれば「約束が果たされた」(+6、6日)と恨み −30。違反・期限切れなら「約束が破られた」(−12、10日)と恨み +35 |
+| **説得する** | 交渉役が判定(§2.5) | 成功: 「説得された」(+2、2日)、恨み −15。失敗: 「話を聞いてもらえなかった」(−7、5日)、恨み +25、交渉役への対人思考 −15 |
+| **却下する** | 「陳情が却下された」(−5、5日)、恨み +20、交渉役への対人思考 −10 | — |
+| **後で決める** | なし(手紙は残る) | 陳情は `petitionExpiryDays`(既定 2 日)で失効し、却下と同じ扱いに「無視された」の文面を添える |
+
+連名者の数による補正: 却下・説得失敗・約束違反のとき、恨みの増加量に `1 + 0.1 × 連名者数`(上限 1.5)を掛ける。集団の不満は個人の不満より重い。
+
+### 2.5 交渉役と説得
+
+**交渉役**は次の順に決める。
+
+1. イデオロギーが有効で、プレイヤーの主イデオロギーに指導者(`IdeoRole_Leader`)がいれば、その人。
+2. いなければ、陳情できる入植者の中で交渉能力(`NegotiationAbility`)が最も高い人。署名者は除く。
+
+説得の成功率は次の純関数で求める。
+
+```
+chance = clamp(0.05, 0.95,
+    0.45 × NegotiationAbility
+  + Opinion(署名者 → 交渉役) / 500
+  − 0.05 × 連名者数
+  − def.persuasionDifficulty)
+```
+
+`persuasionDifficulty` の既定は、Remedy 0.0、道徳的な Cessation 0.15。値は §2.1 の各定義で個別に調整する。
+
+### 2.6 頻度の制御(マイクロ管理の対策)
+
+| 設定 | 既定値 | 意味 |
+|---|---|---|
+| `minDaysBetweenPetitions` | 2 | コロニー全体で、新しい陳情の最短間隔 |
+| `maxOpenPetitions` | 2 | 未回答の陳情の上限 |
+| `pawnCooldownDays` | 5 | 同じ入植者が次に陳情できるまでの日数 |
+| `grievanceCooldownDays` | 10 | 同じ入植者が、同じ不満で次に陳情できるまでの日数 |
+| 不満ごとの自動応答 | 確認 | 確認/常に受諾/常に却下。説得は手動でのみ選べる |
+
+### 2.7 恨み(Resentment)と段階的エスカレーション
+
+恨みは入植者ごとに 0〜100 の値を持ち、毎日 −1 ずつ自然に減る。
+
+| 段階 | 入る条件 | 抜ける条件 | 効果 |
+|---|---|---|---|
+| 0 平常 | — | — | なし |
+| 1 不平 | 30 以上 | 20 未満 | 通知のみ。陳情タブで強調表示 |
+| 2 怠業 | 55 以上 | 45 未満 | ヘディフ `Petitions_Disgruntled`(全体作業速度 ×0.85) |
+| 3 最後通牒 | 80 以上 | 70 未満 | 手紙で「3日以内に恨みが 70 未満にならなければ去る」と予告する。期限が来ても下がっていなければ、精神状態 `Petitions_LeavingInProtest`(バニラ `MentalState_GiveUpExit` のクラスを流用し、ラベルは独自)に入る |
+
+- 恨みを下げる手段は、約束の達成、説得の成功、自然減衰の3つ。プレイヤーには、段階1・2・3それぞれで事前に予告が届く。
+- 怠業と最後通牒は設定で個別に無効化できる。既定ではどちらも有効(§9 の未決事項を参照)。
+
+## 3. アーキテクチャ
+
+### 3.1 構成単位
+
+| 単位 | 役割 | 依存 |
+|---|---|---|
+| `Petitions.Core.PressureModel` | 不満圧の加算と減衰 | なし(純粋な C#) |
+| `Petitions.Core.ResentmentModel` | 恨みの段階判定(ヒステリシス付き) | なし |
+| `Petitions.Core.PersuasionModel` | 説得の成功率 | なし |
+| `Petitions.Core.PetitionRateLimiter` | 頻度の制限の判定 | なし |
+| `GrievanceDef` | 不満の定義(XML) | Verse |
+| `GrievanceScanner` | 入植者の思考から、不満ごとの severity を求める | RimWorld |
+| `PawnGrievanceState` | 入植者ごとの不満圧・恨み・クールダウン(`IExposable`) | Verse |
+| `Petition` | 1件の陳情。署名者、状態、約束の期限(`IExposable`) | Verse |
+| `PetitionsGameComponent` | 時間ごとの更新の起点。状態を保持してセーブする | Verse |
+| `PetitionOutcomes` | 応答の結果(思考・恨み・ヘディフ)を適用する | RimWorld |
+| `ChoiceLetter_Petition` | 陳情の手紙と選択肢 | RimWorld |
+| `MainTabWindow_Petitions` | 陳情タブ: 未回答・約束中・入植者ごとの恨み | RimWorld |
+| `PetitionsMod` / `PetitionsSettings` | MOD の設定 | Verse |
+| `PetitionsDebugActions` | 開発者モード用の操作(圧の加算、陳情の強制など) | LudeonTK |
+
+純粋なロジックは `Source/Petitions/Core/` に置き、RimWorld の型に依存させない。テストプロジェクトはこのディレクトリのソースをリンクしてコンパイルする。こうすることで、ゲームなしで単体テストでき、MOD 本体は 1 DLL のままになる。
+
+### 3.2 時間ごとの更新(`PetitionsGameComponent.GameComponentTick`)
+
+`TicksGame % 2500 == 0` のときだけ、次の順で処理する。
+
+1. 陳情できる入植者を列挙し、`GrievanceScanner` で severity を求める。思考は1人につき1回だけ取得し、ThoughtDef から不満への対応表(起動時に作成)で振り分ける。
+2. 不満圧を更新し、約束中の Remedy については「思考が消えている時間」を更新する。
+3. 約束を評価する(達成/違反/期限切れ)。
+4. 未回答の陳情の失効を評価する。
+5. 恨みの減衰と段階の変化を処理する(ヘディフの付け外し、最後通牒、離脱)。
+6. 新しい陳情の作成を試みる(§2.3)。
+
+計算量は「入植者数 × その人の思考数」で1時間に1回なので、負荷は無視できる。
+
+### 3.3 セーブ
+
+- `PetitionsGameComponent.ExposeData` で、`PawnGrievanceState`(`Dictionary<Pawn, …>` ではなく、Pawn 参照を持つリスト)、`Petition` のリスト、最後に陳情を作った tick を保存する。
+- 死亡・離脱した入植者の状態は、ロード後(`ExposeData` の `LoadSaveMode.PostLoadInit` 段階)と時間ごとの更新で掃除する。
+- `GameComponent` は既存のセーブにも自動で追加されるので、途中から導入できる。
+- 逆に、MOD を外すとセーブ内の独自の思考・ヘディフ・手紙が読めなくなる。「途中で外すのは非推奨」と README に明記する。
+
+## 4. 1.7 固有の技術的な判断
+
+| 判断 | 根拠 |
+|---|---|
+| ターゲットは `net10.0` | 1.7 は .NET 10 上で動く(RimWorld Wiki「RimWorld 1.7 Mod Updates」、添付 DLL の参照先 `System.Runtime 10.0`) |
+| 参照は NuGet の `Krafs.Rimworld.Ref` 1.7.x を既定とし、`RimWorldManagedDir` プロパティでローカルの DLL に切り替えられるようにする | 添付 DLL(Assembly-CSharp 1.7.9787)と NuGet 版(1.7.9790)は型の一覧が一致した。NuGet なら CI でもビルドでき、ゲームの DLL をリポジトリに入れずに済む |
+| **Harmony を使わない** | MVP の機能はすべて Def・GameComponent・手紙・メインタブで作れる。Harmony 3 は型検査が厳しくなっており、パッチなしなら壊れる箇所が減り、依存も減る。必要になった時点で `brrainz.harmony` への依存を追加する |
+| フォルダ構成は `LoadFolders.xml` で `1.7` フォルダと共通フォルダを読み込む | 将来のバージョン追加に備える |
+| 日本語訳のフォルダは `Languages/Japanese` | 1.7 の `LoadedLanguage` は、`Japanese (日本語)` の括弧より前の部分(legacyFolderName)とも一致させる。ASCII のパスにしておくと Git・OS 間で安全 |
+
+## 5. 設定画面
+
+§2.6 の頻度設定、`pressureThreshold` に掛ける倍率(0.5〜3.0)、怠業・最後通牒の有効/無効、不満ごとの自動応答の方針。
+
+## 6. UI
+
+- **陳情の手紙**: 要求の文面、署名者、主な原因の思考(上位3件)、交渉役と説得の成功率、各選択肢の結果の要約を表示する。
+- **陳情タブ**: (a) 未回答の陳情(手紙を開き直せる)、(b) 約束中の陳情と残り日数、(c) 入植者ごとの恨みの値・段階と、主な不満圧。
+
+## 7. テスト
+
+- **単体テスト(xUnit、ゲーム不要)**: PressureModel、ResentmentModel、PersuasionModel、PetitionRateLimiter。境界値(閾値ちょうど、ヒステリシス、clamp)を必ず含める。
+- **ビルド検証**: NuGet の参照と、ローカルの 1.7 DLL の両方でコンパイルが通ること。
+- **ゲーム内の手動テスト(1.7 実機が必要)**: 開発者モードのデバッグ操作で次を確認する。
+  1. 起動時にエラーがない(Def の読み込み、翻訳キーの不足)。
+  2. 相部屋に寝かせて、不満圧が増えることを陳情タブで確認する。
+  3. 陳情を強制し、受諾・説得・却下・後で決めるの各経路を確認する。
+  4. 約束の達成・違反・期限切れを確認する。
+  5. 恨みの段階1→2→3と離脱。設定で無効にしたときに起きないこと。
+  6. セーブして読み込み直し、状態が保たれること。途中のセーブへの導入。
+
+## 8. 実装の段階
+
+1. **骨組み(このコミット)**: プロジェクト構成、ビルド、Core の純ロジックとテスト、GrievanceDef と MVP の不満定義、走査と不満圧の更新、陳情タブ(不満圧の表示)、設定、デバッグ操作、英日の翻訳。ゲーム内で「不満が溜まる様子」まで確認できる。
+2. **MVP の残り**: Petition の作成と連名、手紙、応答の結果、約束の追跡、恨みとエスカレーション、自動応答の方針。
+3. **拡張**: 陳情者が交渉役のところへ歩いて行って話す行動(Job)、交渉役を指名する UI、イデオロギーの戒律ごとの補正、DLC の思考を使った不満の追加、陳情の履歴、他 MOD との互換。
+
+## 9. 未決事項(レビューで決めたいこと)
+
+1. **離脱(最後通牒)を既定で有効にするか**: 物語としては強いが、入植者を失うのは重い。現案は「有効。設定で無効化できる」。
+2. **陳情中の入植者の軽度の精神崩壊を抑えるか**: 「崩壊の代わりに声を上げる」という趣旨には合うが、バニラの難易度を下げる。現案は MVP では行わない。
+3. **数値の初期値**: 閾値 25、恨みの増減、各思考の値と期間。実機で調整する前提の暫定値である。
+
+## 10. 参考
+
+- RimWorld Wiki「Modding Tutorials/RimWorld 1.7 Mod Updates」
+- 添付の 1.7 DLL(Assembly-CSharp 1.7.9787)と Core データ。調べたもの: `Verse.AI.MentalBreaker`、`RimWorld.ThoughtHandler`、`RimWorld.Thought_Memory`、`Verse.ChoiceLetter`、`RimWorld.Precept_Role`、`LudeonTK.DebugActionAttribute`、ThoughtDefs、MentalStateDefs
+- コミュニティの議論: Steam 公式掲示板の精神崩壊スレッド、Psychology MOD のディスカッション
