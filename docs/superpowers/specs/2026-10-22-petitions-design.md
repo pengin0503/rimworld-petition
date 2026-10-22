@@ -245,6 +245,8 @@ chance = clamp(0.05, 0.95,
 1. **骨組み(このコミット)**: プロジェクト構成、ビルド、Core の純ロジックとテスト、GrievanceDef と MVP の不満定義、走査と不満圧の更新、陳情タブ(不満圧の表示)、設定、デバッグ操作、英日の翻訳。ゲーム内で「不満が溜まる様子」まで確認できる。
 2. **MVP の残り**: Petition の作成と連名、手紙、応答の結果、約束の追跡、恨みとエスカレーション、自動応答の方針。
 3. **拡張**: 陳情者が交渉役のところへ歩いて行って話す行動(Job)、交渉役を指名する UI、イデオロギーの戒律ごとの補正、DLC の思考を使った不満の追加、陳情の履歴、他 MOD との互換。
+   - **3a(§10)**: 出来事による照合、約束後の発生判定の許容幅、交渉役の指名、陳情の履歴。
+   - **見送り**: 歩いて話しに行く行動(Job)。実機で確かめずに思考ツリーや JobDriver を足すのは危険が大きいため。
 
 ## 9. 決定事項(2026-10-22 のレビュー)
 
@@ -252,7 +254,43 @@ chance = clamp(0.05, 0.95,
 2. **陳情中の入植者でも、軽度の精神崩壊は抑えない**。
 3. **数値の初期値**は、§2.2・§2.4・§2.7 の値とする。実機で遊んだ結果を見て調整する。
 
-## 10. 参考
+## 10. 段階3a(MVP の後に見つかった穴と、危険の小さい拡張)
+
+### 10.1 出来事(HistoryEventDef)による照合
+
+**問題**: MVP では、Cessation 型の不満を古典的な戒律(`*_Classic`)の思考名で定義していた(例: `KnowGuestExecuted`)。しかしイデオロギー DLC が有効だと、各イデオロギーの戒律(「処刑は忌まわしい」など)が**独自の思考**を与える。そのため、処刑・臓器摘出・人身売買・人の解体についての陳情が出ない。添付の Core データには DLC の思考名が含まれていない。
+
+**解決**: 戒律は、どの戒律でも Core の同じ出来事に反応して思考を与える。たとえば処刑なら `ExecutedPrisoner` / `ExecutedGuest` / `ExecutedColonist` に反応する(`PreceptComp_KnowsMemoryThought` / `PreceptComp_SelfTookMemoryThought` の `eventDef` → `thought`)。そこで次のようにする。
+
+- `GrievanceDef` に `historyEvents`(`HistoryEventDef` のリスト)を加える。
+- 起動時に、全 `PreceptDef` の comps から「思考 → 出来事」の対応表を作る。
+- 思考は、`thoughts` に含まれるか、対応表上の出来事が `historyEvents` と重なれば、その不満の証拠とみなす。
+- 正の気分(「処刑は必要」の戒律の喜びなど)は、これまでどおり数えない。不満圧の走査も、Cessation の約束後の発生判定も、同じ照合を使う。
+- 照合の純ロジック(対応表の作成と判定)は Core に置いてテストする。
+
+| 不満 | historyEvents |
+|---|---|
+| 臓器摘出 | `HarvestedOrganFromGuest`、`HarvestedOrganFromColonist` |
+| 処刑 | `ExecutedPrisoner`、`ExecutedGuest`、`ExecutedColonist` |
+| 人身売買 | `SoldSlave` |
+| 人の解体 | `ButcheredHuman` |
+| 放置された遺体 | `ObservedLayingCorpse`、`ObservedLayingRottingCorpse` |
+
+### 10.2 約束後の発生判定の許容幅
+
+記憶思考の `age` は 150 tick 刻みでしか進まない。そのため、受諾の直前に付いた記憶が「受諾後」と判定されることがある。判定は `age + 300 < 受諾からの経過 tick` とし(許容幅 300 tick)、Core の純関数でテストする。
+
+### 10.3 交渉役の指名
+
+- 陳情タブで、交渉役を「自動」(§2.5)か、特定の入植者に指名できる。指名は `PetitionsGameComponent` に保存する。
+- 指名した人が交渉できない場合は、自動の規則にフォールバックする。交渉できない場合とは、陳情できる状態にない、行動不能、精神状態異常、その陳情の署名者、のいずれか。
+- 判定の純ロジック(指名 → 指導者 → 交渉能力最大)は Core でテストする。
+
+### 10.4 陳情の履歴
+
+陳情タブに「最近の陳情」区画を加え、終了した陳情を新しい順に表示する(保存している最新30件)。表示する項目は署名者、不満、結果。
+
+## 11. 参考
 
 - RimWorld Wiki「Modding Tutorials/RimWorld 1.7 Mod Updates」
 - 添付の 1.7 DLL(Assembly-CSharp 1.7.9787)と Core データ。調べたもの: `Verse.AI.MentalBreaker`、`RimWorld.ThoughtHandler`、`RimWorld.Thought_Memory`、`Verse.ChoiceLetter`、`RimWorld.Precept_Role`、`LudeonTK.DebugActionAttribute`、ThoughtDefs、MentalStateDefs
