@@ -49,6 +49,12 @@
   <Petitions_Message_Rejected>You rejected {PAWN_nameDef}'s petition.</Petitions_Message_Rejected>
   <Petitions_Message_Ignored>{PAWN_nameDef}'s petition went unanswered and was ignored.</Petitions_Message_Ignored>
 
+  <!-- Promises -->
+  <Petitions_PromiseKept_Label>Promise kept</Petitions_PromiseKept_Label>
+  <Petitions_PromiseKept_Text>The colony kept its promise to {PAWN_nameDef} about {GRIEVANCE}. The signers feel heard, and their resentment eases.</Petitions_PromiseKept_Text>
+  <Petitions_PromiseBroken_Label>Promise broken</Petitions_PromiseBroken_Label>
+  <Petitions_PromiseBroken_Text>The colony broke its promise to {PAWN_nameDef} about {GRIEVANCE}. The signers won't forget this soon.</Petitions_PromiseBroken_Text>
+
   <!-- Petitions tab -->
   <Petitions_Tab_Title>Grievances</Petitions_Tab_Title>
   <Petitions_Tab_NoGrievances>No colonist has a grievance right now.</Petitions_Tab_NoGrievances>

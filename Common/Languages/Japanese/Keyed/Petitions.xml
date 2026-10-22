@@ -49,6 +49,12 @@
   <Petitions_Message_Rejected>{PAWN_nameDef}の陳情を却下しました。</Petitions_Message_Rejected>
   <Petitions_Message_Ignored>{PAWN_nameDef}の陳情は答えのないまま放置され、無視されたことになりました。</Petitions_Message_Ignored>
 
+  <!-- 約束 -->
+  <Petitions_PromiseKept_Label>約束が果たされた</Petitions_PromiseKept_Label>
+  <Petitions_PromiseKept_Text>コロニーは、{PAWN_nameDef}との「{GRIEVANCE}」についての約束を果たしました。署名者は話を聞いてもらえたと感じ、恨みが和らぎました。</Petitions_PromiseKept_Text>
+  <Petitions_PromiseBroken_Label>約束が破られた</Petitions_PromiseBroken_Label>
+  <Petitions_PromiseBroken_Text>コロニーは、{PAWN_nameDef}との「{GRIEVANCE}」についての約束を破りました。署名者はこのことをすぐには忘れないでしょう。</Petitions_PromiseBroken_Text>
+
   <!-- 陳情タブ -->
   <Petitions_Tab_Title>不満</Petitions_Tab_Title>
   <Petitions_Tab_NoGrievances>今のところ、不満を抱えている入植者はいません。</Petitions_Tab_NoGrievances>

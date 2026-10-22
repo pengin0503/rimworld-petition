@@ -14,6 +14,8 @@ namespace Petitions
 
         private const float HoursPerUpdate = (float)UpdateIntervalTicks / GenDate.TicksPerHour;
 
+        private const int MaxClosedPetitionsKept = 30;
+
         private List<PawnGrievanceState> states = new List<PawnGrievanceState>();
 
         private List<Petition> petitions = new List<Petition>();
@@ -156,8 +158,32 @@ namespace Petitions
             int now = Find.TickManager.TicksGame;
             RemoveStaleStates();
             UpdatePressure(hours);
+            UpdatePromises(now);
             ExpireOpenPetitions(now);
             TryCreatePetition(now);
+            PruneClosedPetitions();
+        }
+
+        /// <summary>Step 3.</summary>
+        private void UpdatePromises(int now)
+        {
+            for (int i = 0; i < petitions.Count; i++)
+            {
+                PromiseTracker.Update(petitions[i], now);
+            }
+        }
+
+        /// <summary>Keeps only the most recent closed petitions, for the Petitions tab history.</summary>
+        private void PruneClosedPetitions()
+        {
+            int closed = 0;
+            for (int i = petitions.Count - 1; i >= 0; i--)
+            {
+                if (!petitions[i].IsActive && ++closed > MaxClosedPetitionsKept)
+                {
+                    petitions.RemoveAt(i);
+                }
+            }
         }
 
         /// <summary>Steps 1-2: scan thoughts and update pressure. Also remembers severities for promise tracking.</summary>
