@@ -9,12 +9,12 @@
   </supportedVersions>
   <description>Colonists voice lasting grievances as concrete petitions, instead of only snapping without warning.
 
-- Grievances build up from the colonist's own mood thoughts: sleeping in barracks, eating without a table, going without recreation, corpses left lying, and knowing the colony harvests organs, executes, sells or butchers people.
+- Grievances build up from the colonist's own mood thoughts: sleeping in barracks, eating without a table, going without recreation, corpses left lying, and knowing the colony harvests organs, executes, sells or butchers people. Thoughts from ideoligion precepts about the same events count too.
 - When a grievance has built up, the colonist files a petition. Others who feel the same may cosign it.
 - Answer each petition: accept and promise to fix it, have your negotiator try to talk them out of it, or reject it. Ignoring it counts too.
 - Promises are tracked. Keep them and the signers feel heard; break them and they won't forget.
 - Refused and broken promises build resentment. Resentful colonists grumble, then work slower, and finally give an ultimatum: things change within 3 days, or they leave.
-- The Petitions tab shows open petitions, promises in progress, and each colonist's resentment and grievances.
+- The Petitions tab shows open petitions, promises in progress, each colonist's resentment and grievances, and recent petitions. Choose your negotiator there, or leave it automatic.
 - Settings: how often petitions come, automatic answers per grievance, and switches for slower work and ultimatums.
 
 Vanilla mental breaks are unchanged. No Harmony needed. Requires RimWorld 1.7. Can be added to an existing save, but is not safe to remove from one.
