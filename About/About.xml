@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Petitions</name>
+  <author>pengin0503</author>
+  <packageId>pengin0503.petitions</packageId>
+  <url>https://github.com/pengin0503/rimworld-petition</url>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Colonists voice lasting grievances as concrete petitions before they snap.
+
+Each grievance builds up from the colonist's own mood thoughts (sleeping in barracks, eating without a table, knowing about organ harvesting, and so on). The Petitions tab shows how close each colonist is to speaking up.
+
+Work in progress: this version tracks grievance pressure. Petitions, negotiation and escalation come in later versions.
+
+Requires RimWorld 1.7. Not safe to remove from an existing save.</description>
+</ModMetaData>

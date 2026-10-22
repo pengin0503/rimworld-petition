@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <MainButtonDef>
+    <defName>Petitions_Petitions</defName>
+    <label>petitions</label>
+    <description>See which grievances your colonists are building up, and how close they are to petitioning.</description>
+    <tabWindowClass>Petitions.MainTabWindow_Petitions</tabWindowClass>
+    <order>55</order>
+    <closesWorldView>true</closesWorldView>
+  </MainButtonDef>
+
+</Defs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings -->
+  <Petitions_SettingsCategory>Petitions</Petitions_SettingsCategory>
+  <Petitions_Settings_ThresholdMultiplier>Petition threshold: {0}</Petitions_Settings_ThresholdMultiplier>
+  <Petitions_Settings_ThresholdMultiplier_Tip>Multiplies how much grievance pressure a colonist needs before petitioning. Higher means fewer petitions.</Petitions_Settings_ThresholdMultiplier_Tip>
+  <Petitions_Settings_PressureDecay>Grievance decay per day: {0}</Petitions_Settings_PressureDecay>
+  <Petitions_Settings_PressureDecay_Tip>How much grievance pressure fades each day while its cause is gone.</Petitions_Settings_PressureDecay_Tip>
+  <Petitions_Settings_Reset>Reset to defaults</Petitions_Settings_Reset>
+
+  <!-- Petitions tab -->
+  <Petitions_Tab_Title>Grievances</Petitions_Tab_Title>
+  <Petitions_Tab_NoGrievances>No colonist has a grievance right now.</Petitions_Tab_NoGrievances>
+  <Petitions_Tab_ReadyToPetition>(ready to petition)</Petitions_Tab_ReadyToPetition>
+
+</LanguageData>

@@ -200,7 +200,7 @@ chance = clamp(0.05, 0.95,
 | 判断 | 根拠 |
 |---|---|
 | ターゲットは `net10.0` | 1.7 は .NET 10 上で動く(RimWorld Wiki「RimWorld 1.7 Mod Updates」、添付 DLL の参照先 `System.Runtime 10.0`) |
-| 参照は NuGet の `Krafs.Rimworld.Ref` 1.7.x を既定とし、`RimWorldManagedDir` プロパティでローカルの DLL に切り替えられるようにする | 添付 DLL(Assembly-CSharp 1.7.9787)と NuGet 版(1.7.9790)は型の一覧が一致した。NuGet なら CI でもビルドでき、ゲームの DLL をリポジトリに入れずに済む |
+| 参照は NuGet の `Krafs.Rimworld.Ref` **1.7.4982-unstable** に固定する。`RimWorldManagedDir` プロパティでローカルの DLL に切り替えられるようにする | このパッケージの Assembly-CSharp は、添付 DLL と同じ 1.7.9787.38423 だった。NuGet なら CI でもビルドでき、ゲームの DLL をリポジトリに入れずに済む。1.7 のゲームはMODの DLL を `Assembly.LoadFrom` で読み込む。.NET では、ゲーム本体より新しい Assembly-CSharp を参照するMODが読み込めないおそれがあるため、最新の 1.7.4985(1.7.9790)は採用しない。参照パッケージを上げてよいのは、対応するゲームの最低ビルドを上げるときだけ |
 | **Harmony を使わない** | MVP の機能はすべて Def・GameComponent・手紙・メインタブで作れる。Harmony 3 は型検査が厳しくなっており、パッチなしなら壊れる箇所が減り、依存も減る。必要になった時点で `brrainz.harmony` への依存を追加する |
 | フォルダ構成は `LoadFolders.xml` で `1.7` フォルダと共通フォルダを読み込む | 将来のバージョン追加に備える |
 | 日本語訳のフォルダは `Languages/Japanese` | 1.7 の `LoadedLanguage` は、`Japanese (日本語)` の括弧より前の部分(legacyFolderName)とも一致させる。ASCII のパスにしておくと Git・OS 間で安全 |

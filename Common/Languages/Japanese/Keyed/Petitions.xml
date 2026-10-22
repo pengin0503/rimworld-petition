@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 設定 -->
+  <Petitions_SettingsCategory>陳情と交渉</Petitions_SettingsCategory>
+  <Petitions_Settings_ThresholdMultiplier>陳情の閾値: {0}</Petitions_Settings_ThresholdMultiplier>
+  <Petitions_Settings_ThresholdMultiplier_Tip>入植者が陳情するまでに必要な不満圧の倍率です。高いほど陳情は少なくなります。</Petitions_Settings_ThresholdMultiplier_Tip>
+  <Petitions_Settings_PressureDecay>1日あたりの不満の減衰: {0}</Petitions_Settings_PressureDecay>
+  <Petitions_Settings_PressureDecay_Tip>原因がなくなっている間に、不満圧が1日あたりどれだけ減るかです。</Petitions_Settings_PressureDecay_Tip>
+  <Petitions_Settings_Reset>初期値に戻す</Petitions_Settings_Reset>
+
+  <!-- 陳情タブ -->
+  <Petitions_Tab_Title>不満</Petitions_Tab_Title>
+  <Petitions_Tab_NoGrievances>今のところ、不満を抱えている入植者はいません。</Petitions_Tab_NoGrievances>
+  <Petitions_Tab_ReadyToPetition>(陳情できる状態)</Petitions_Tab_ReadyToPetition>
+
+</LanguageData>
