@@ -72,8 +72,25 @@
   <Petitions_LeavingReason_Unknown>the grievances raised</Petitions_LeavingReason_Unknown>
 
   <!-- Petitions tab -->
-  <Petitions_Tab_Title>Grievances</Petitions_Tab_Title>
+  <Petitions_Tab_OpenPetitions>Unanswered petitions</Petitions_Tab_OpenPetitions>
+  <Petitions_Tab_Promises>Promises in progress</Petitions_Tab_Promises>
+  <Petitions_Tab_Colonists>Colonists: resentment and grievances</Petitions_Tab_Colonists>
+  <Petitions_Tab_None>None.</Petitions_Tab_None>
   <Petitions_Tab_NoGrievances>No colonist has a grievance right now.</Petitions_Tab_NoGrievances>
-  <Petitions_Tab_ReadyToPetition>(ready to petition)</Petitions_Tab_ReadyToPetition>
+  <Petitions_Tab_TimeLeft>{0} left</Petitions_Tab_TimeLeft>
+  <Petitions_Tab_DaysLeft>Deadline in {0}</Petitions_Tab_DaysLeft>
+  <Petitions_Tab_Accept>Accept</Petitions_Tab_Accept>
+  <Petitions_Tab_Persuade>Persuade ({0})</Petitions_Tab_Persuade>
+  <Petitions_Tab_PersuadeTip>{NEGOTIATOR_nameDef} will try to talk them out of it.</Petitions_Tab_PersuadeTip>
+  <Petitions_Tab_Reject>Reject</Petitions_Tab_Reject>
+  <Petitions_Tab_RemedyStatus>Fixed for {0} of {1} signers</Petitions_Tab_RemedyStatus>
+  <Petitions_Tab_CessationStatus>Kept so far</Petitions_Tab_CessationStatus>
+  <Petitions_Tab_ResentmentTip>Resentment, 0 to 100. Grumbling from 30, disgruntled from 55, ultimatum from 80.</Petitions_Tab_ResentmentTip>
+  <Petitions_Tab_PressureTip>Grievance pressure / pressure needed to petition.</Petitions_Tab_PressureTip>
+  <Petitions_Tab_UltimatumLeft>({0} left)</Petitions_Tab_UltimatumLeft>
+  <Petitions_StageLabel_Calm>calm</Petitions_StageLabel_Calm>
+  <Petitions_StageLabel_Grumbling>grumbling</Petitions_StageLabel_Grumbling>
+  <Petitions_StageLabel_Disgruntled>disgruntled</Petitions_StageLabel_Disgruntled>
+  <Petitions_StageLabel_Ultimatum>ultimatum</Petitions_StageLabel_Ultimatum>
 
 </LanguageData>

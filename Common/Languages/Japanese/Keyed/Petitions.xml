@@ -72,8 +72,25 @@
   <Petitions_LeavingReason_Unknown>抱えていた不満</Petitions_LeavingReason_Unknown>
 
   <!-- 陳情タブ -->
-  <Petitions_Tab_Title>不満</Petitions_Tab_Title>
+  <Petitions_Tab_OpenPetitions>未回答の陳情</Petitions_Tab_OpenPetitions>
+  <Petitions_Tab_Promises>約束中の陳情</Petitions_Tab_Promises>
+  <Petitions_Tab_Colonists>入植者: 恨みと不満</Petitions_Tab_Colonists>
+  <Petitions_Tab_None>なし</Petitions_Tab_None>
   <Petitions_Tab_NoGrievances>今のところ、不満を抱えている入植者はいません。</Petitions_Tab_NoGrievances>
-  <Petitions_Tab_ReadyToPetition>(陳情できる状態)</Petitions_Tab_ReadyToPetition>
+  <Petitions_Tab_TimeLeft>残り{0}</Petitions_Tab_TimeLeft>
+  <Petitions_Tab_DaysLeft>期限まで{0}</Petitions_Tab_DaysLeft>
+  <Petitions_Tab_Accept>受諾する</Petitions_Tab_Accept>
+  <Petitions_Tab_Persuade>説得する({0})</Petitions_Tab_Persuade>
+  <Petitions_Tab_PersuadeTip>{NEGOTIATOR_nameDef}が陳情を取り下げるよう説得します。</Petitions_Tab_PersuadeTip>
+  <Petitions_Tab_Reject>却下する</Petitions_Tab_Reject>
+  <Petitions_Tab_RemedyStatus>署名者{1}人中{0}人について改善済み</Petitions_Tab_RemedyStatus>
+  <Petitions_Tab_CessationStatus>今のところ守られている</Petitions_Tab_CessationStatus>
+  <Petitions_Tab_ResentmentTip>恨み(0〜100)。30 から不平、55 から怠業、80 から最後通牒。</Petitions_Tab_ResentmentTip>
+  <Petitions_Tab_PressureTip>不満圧 / 陳情に必要な不満圧</Petitions_Tab_PressureTip>
+  <Petitions_Tab_UltimatumLeft>(残り{0})</Petitions_Tab_UltimatumLeft>
+  <Petitions_StageLabel_Calm>平常</Petitions_StageLabel_Calm>
+  <Petitions_StageLabel_Grumbling>不平</Petitions_StageLabel_Grumbling>
+  <Petitions_StageLabel_Disgruntled>怠業</Petitions_StageLabel_Disgruntled>
+  <Petitions_StageLabel_Ultimatum>最後通牒</Petitions_StageLabel_Ultimatum>
 
 </LanguageData>
