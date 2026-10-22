@@ -47,6 +47,16 @@ public class PromiseEvaluatorTests
         Assert.Equal(PromiseStatus.Broken, PromiseEvaluator.EvaluateRemedy(200_000, 200_000, 60_000, new int[0]));
     }
 
+    [Theory]
+    [InlineData(100, 2500, true)]
+    [InlineData(2300, 2500, false)]
+    [InlineData(2200, 2500, false)]
+    [InlineData(2199, 2500, true)]
+    public void IsNewSincePromise_AllowsMemoryAgeGranularity(int memoryAge, int ticksSincePromise, bool expected)
+    {
+        Assert.Equal(expected, PromiseEvaluator.IsNewSincePromise(memoryAge, ticksSincePromise));
+    }
+
     [Fact]
     public void Cessation_BrokenOnNewOccurrence()
     {

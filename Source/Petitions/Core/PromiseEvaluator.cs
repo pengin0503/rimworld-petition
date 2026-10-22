@@ -12,6 +12,15 @@ namespace Petitions.Core
     /// <summary>Decides whether a promise made in answer to a petition was kept (spec section 2.1).</summary>
     public static class PromiseEvaluator
     {
+        /// <summary>Memory age only advances in 150-tick steps, so allow some slack (spec section 10.2).</summary>
+        public const int MemoryAgeToleranceTicks = 300;
+
+        /// <summary>Whether a memory of this age was gained after a promise made this many ticks ago.</summary>
+        public static bool IsNewSincePromise(int memoryAge, int ticksSincePromise)
+        {
+            return memoryAge + MemoryAgeToleranceTicks < ticksSincePromise;
+        }
+
         /// <param name="clearSinceTicks">
         /// One entry per signer currently at home: the tick since which the grievance's thoughts
         /// have been absent, or -1 while they are present. Empty means nobody can be judged; the
