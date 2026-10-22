@@ -55,6 +55,22 @@
   <Petitions_PromiseBroken_Label>Promise broken</Petitions_PromiseBroken_Label>
   <Petitions_PromiseBroken_Text>The colony broke its promise to {PAWN_nameDef} about {GRIEVANCE}. The signers won't forget this soon.</Petitions_PromiseBroken_Text>
 
+  <!-- Escalation -->
+  <Petitions_Stage_Grumbling>{PAWN_nameDef} has started grumbling about how the colony treats [PAWN_objective].</Petitions_Stage_Grumbling>
+  <Petitions_Stage_Disgruntled>{PAWN_nameDef} is fed up and has stopped putting [PAWN_possessive] heart into work.</Petitions_Stage_Disgruntled>
+  <Petitions_Stage_Calm>{PAWN_nameDef} no longer holds a grudge against the colony.</Petitions_Stage_Calm>
+  <Petitions_UltimatumResolved>{PAWN_nameDef} has decided to stay after all.</Petitions_UltimatumResolved>
+  <Petitions_Ultimatum_Label>Ultimatum: {PAWN_labelShort}</Petitions_Ultimatum_Label>
+  <Petitions_Ultimatum_Text>{PAWN_nameDef} has had enough. [PAWN_pronoun] says that unless things change within {DAYS} days, [PAWN_pronoun] will leave the colony.\n\n[PAWN_possessive] resentment is {RESENTMENT} and must fall below {EXIT}. Keeping a promise or a successful persuasion lowers it; time alone is too slow.</Petitions_Ultimatum_Text>
+  <Petitions_Ultimatum_TextGrievance>Promising now to deal with {GRIEVANCE} ({DEMAND}) stops the clock until that promise is kept or broken. If it is broken, [PAWN_pronoun] leaves at once.</Petitions_Ultimatum_TextGrievance>
+  <Petitions_Ultimatum_TextNoGrievance>There is no grievance you can promise to deal with right now.</Petitions_Ultimatum_TextNoGrievance>
+  <Petitions_Ultimatum_OptionPromise>Promise to deal with {GRIEVANCE}</Petitions_Ultimatum_OptionPromise>
+  <Petitions_Ultimatum_OptionPromiseNone>Promise to deal with a grievance</Petitions_Ultimatum_OptionPromiseNone>
+  <Petitions_Ultimatum_NothingToPromise>No grievance without a petition in progress.</Petitions_Ultimatum_NothingToPromise>
+  <Petitions_Ultimatum_OptionWait>Let things be</Petitions_Ultimatum_OptionWait>
+  <Petitions_LeavingReason>{PAWN_nameDef}'s ultimatum ran out. The colony never dealt with {GRIEVANCE}.</Petitions_LeavingReason>
+  <Petitions_LeavingReason_Unknown>the grievances raised</Petitions_LeavingReason_Unknown>
+
   <!-- Petitions tab -->
   <Petitions_Tab_Title>Grievances</Petitions_Tab_Title>
   <Petitions_Tab_NoGrievances>No colonist has a grievance right now.</Petitions_Tab_NoGrievances>

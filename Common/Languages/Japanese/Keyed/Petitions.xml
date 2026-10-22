@@ -55,6 +55,22 @@
   <Petitions_PromiseBroken_Label>約束が破られた</Petitions_PromiseBroken_Label>
   <Petitions_PromiseBroken_Text>コロニーは、{PAWN_nameDef}との「{GRIEVANCE}」についての約束を破りました。署名者はこのことをすぐには忘れないでしょう。</Petitions_PromiseBroken_Text>
 
+  <!-- エスカレーション -->
+  <Petitions_Stage_Grumbling>{PAWN_nameDef}が、コロニーでの扱いについて不平を漏らし始めました。</Petitions_Stage_Grumbling>
+  <Petitions_Stage_Disgruntled>{PAWN_nameDef}はうんざりしており、仕事に身が入らなくなりました。</Petitions_Stage_Disgruntled>
+  <Petitions_Stage_Calm>{PAWN_nameDef}は、もうコロニーに恨みを抱いていません。</Petitions_Stage_Calm>
+  <Petitions_UltimatumResolved>{PAWN_nameDef}は、結局コロニーに残ることにしました。</Petitions_UltimatumResolved>
+  <Petitions_Ultimatum_Label>最後通牒: {PAWN_labelShort}</Petitions_Ultimatum_Label>
+  <Petitions_Ultimatum_Text>{PAWN_nameDef}はもう我慢の限界です。{DAYS}日以内に何も変わらなければ、コロニーを出て行くと言っています。\n\n現在の恨みは{RESENTMENT}で、{EXIT}未満まで下げる必要があります。約束を果たすか、説得に成功すれば下がります。時間がたつのを待つだけでは間に合いません。</Petitions_Ultimatum_Text>
+  <Petitions_Ultimatum_TextGrievance>今「{GRIEVANCE}」({DEMAND})に対処すると約束すれば、その約束の結果が出るまで期限は止まります。約束を破れば、すぐに出て行きます。</Petitions_Ultimatum_TextGrievance>
+  <Petitions_Ultimatum_TextNoGrievance>今、対処を約束できる不満はありません。</Petitions_Ultimatum_TextNoGrievance>
+  <Petitions_Ultimatum_OptionPromise>「{GRIEVANCE}」に対処すると約束する</Petitions_Ultimatum_OptionPromise>
+  <Petitions_Ultimatum_OptionPromiseNone>不満に対処すると約束する</Petitions_Ultimatum_OptionPromiseNone>
+  <Petitions_Ultimatum_NothingToPromise>陳情が進行中でない不満がありません。</Petitions_Ultimatum_NothingToPromise>
+  <Petitions_Ultimatum_OptionWait>様子を見る</Petitions_Ultimatum_OptionWait>
+  <Petitions_LeavingReason>{PAWN_nameDef}の最後通牒の期限が切れました。コロニーは「{GRIEVANCE}」に対処しませんでした。</Petitions_LeavingReason>
+  <Petitions_LeavingReason_Unknown>抱えていた不満</Petitions_LeavingReason_Unknown>
+
   <!-- 陳情タブ -->
   <Petitions_Tab_Title>不満</Petitions_Tab_Title>
   <Petitions_Tab_NoGrievances>今のところ、不満を抱えている入植者はいません。</Petitions_Tab_NoGrievances>

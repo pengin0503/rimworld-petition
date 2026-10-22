@@ -160,8 +160,18 @@ namespace Petitions
             UpdatePressure(hours);
             UpdatePromises(now);
             ExpireOpenPetitions(now);
+            UpdateEscalation(now, hours / PressureModel.HoursPerDay);
             TryCreatePetition(now);
             PruneClosedPetitions();
+        }
+
+        /// <summary>Step 5.</summary>
+        private void UpdateEscalation(int now, float days)
+        {
+            for (int i = 0; i < states.Count; i++)
+            {
+                Escalation.Update(states[i], now, days);
+            }
         }
 
         /// <summary>Step 3.</summary>
