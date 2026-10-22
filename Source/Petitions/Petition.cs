@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Petitions.Core;
 using Verse;
 
 namespace Petitions
@@ -60,20 +61,6 @@ namespace Petitions
             return signers.Contains(pawn);
         }
 
-        public void RemoveSigner(Pawn pawn)
-        {
-            int index = signers.IndexOf(pawn);
-            if (index < 0)
-            {
-                return;
-            }
-            signers.RemoveAt(index);
-            if (index < clearSinceTicks.Count)
-            {
-                clearSinceTicks.RemoveAt(index);
-            }
-        }
-
         public void ExposeData()
         {
             Scribe_Values.Look(ref id, "id");
@@ -89,23 +76,8 @@ namespace Petitions
             {
                 signers ??= new List<Pawn>();
                 clearSinceTicks ??= new List<int>();
-                // Keep clearSinceTicks aligned with signers, then drop signers that no longer resolve.
-                while (clearSinceTicks.Count < signers.Count)
-                {
-                    clearSinceTicks.Add(-1);
-                }
-                for (int i = signers.Count - 1; i >= 0; i--)
-                {
-                    if (signers[i] == null)
-                    {
-                        signers.RemoveAt(i);
-                        clearSinceTicks.RemoveAt(i);
-                    }
-                }
-                if (clearSinceTicks.Count > signers.Count)
-                {
-                    clearSinceTicks.RemoveRange(signers.Count, clearSinceTicks.Count - signers.Count);
-                }
+                // Drop signers that no longer resolve; an emptied petition is withdrawn on the next update.
+                SignerPruner.Prune(signers, clearSinceTicks, pawn => pawn == null);
             }
         }
     }

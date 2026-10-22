@@ -174,12 +174,25 @@ namespace Petitions
             }
         }
 
-        /// <summary>Step 3.</summary>
+        /// <summary>
+        /// Step 3. Drops signers who died or left from every active petition first; a petition
+        /// with nobody left is withdrawn without effect.
+        /// </summary>
         private void UpdatePromises(int now)
         {
             for (int i = 0; i < petitions.Count; i++)
             {
-                PromiseTracker.Update(petitions[i], now);
+                Petition petition = petitions[i];
+                if (!petition.IsActive)
+                {
+                    continue;
+                }
+                if (SignerPruner.Prune(petition.signers, petition.clearSinceTicks, IsGone))
+                {
+                    PetitionResponder.Withdraw(petition);
+                    continue;
+                }
+                PromiseTracker.Update(petition, now);
             }
         }
 

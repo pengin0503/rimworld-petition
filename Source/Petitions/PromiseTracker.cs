@@ -18,19 +18,6 @@ namespace Petitions
             {
                 return;
             }
-            for (int i = petition.signers.Count - 1; i >= 0; i--)
-            {
-                if (PetitionsGameComponent.IsGone(petition.signers[i]))
-                {
-                    petition.RemoveSigner(petition.signers[i]);
-                }
-            }
-            if (petition.signers.Count == 0)
-            {
-                PetitionResponder.Withdraw(petition);
-                return;
-            }
-
             PromiseStatus status = petition.grievance.kind == GrievanceKind.Remedy
                 ? EvaluateRemedy(petition, nowTick)
                 : PromiseEvaluator.EvaluateCessation(nowTick, petition.promiseDeadlineTick, HasNewOccurrence(petition, nowTick));
