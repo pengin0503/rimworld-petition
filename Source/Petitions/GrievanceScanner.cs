@@ -42,6 +42,38 @@ namespace Petitions
             }
         }
 
+        /// <summary>The pawn's current negative thoughts behind a grievance, worst first.</summary>
+        public static List<(string label, float moodOffset)> Causes(Pawn pawn, GrievanceDef grievance, int max)
+        {
+            List<(string label, float moodOffset)> causes = new List<(string, float)>();
+            ThoughtHandler thoughts = pawn.needs?.mood?.thoughts;
+            if (thoughts == null)
+            {
+                return causes;
+            }
+            thoughts.GetDistinctMoodThoughtGroups(tmpGroups);
+            for (int i = 0; i < tmpGroups.Count; i++)
+            {
+                Thought group = tmpGroups[i];
+                if (!grievance.thoughts.Contains(group.def))
+                {
+                    continue;
+                }
+                float offset = thoughts.MoodOffsetOfGroup(group);
+                if (offset < 0f)
+                {
+                    causes.Add((group.LabelCap, offset));
+                }
+            }
+            tmpGroups.Clear();
+            causes.Sort((a, b) => a.moodOffset.CompareTo(b.moodOffset));
+            if (causes.Count > max)
+            {
+                causes.RemoveRange(max, causes.Count - max);
+            }
+            return causes;
+        }
+
         /// <summary>
         /// Fills <paramref name="severities"/> with grievance -> positive severity.
         /// Grievances without negative matching thoughts are left out.

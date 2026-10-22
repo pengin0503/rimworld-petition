@@ -8,6 +8,46 @@
   <Petitions_Settings_PressureDecay>Grievance decay per day: {0}</Petitions_Settings_PressureDecay>
   <Petitions_Settings_PressureDecay_Tip>How much grievance pressure fades each day while its cause is gone.</Petitions_Settings_PressureDecay_Tip>
   <Petitions_Settings_Reset>Reset to defaults</Petitions_Settings_Reset>
+  <Petitions_Settings_Section_Grievances>Grievances</Petitions_Settings_Section_Grievances>
+  <Petitions_Settings_Section_Frequency>How often petitions come</Petitions_Settings_Section_Frequency>
+  <Petitions_Settings_MinDaysBetween>Minimum days between petitions: {0}</Petitions_Settings_MinDaysBetween>
+  <Petitions_Settings_MaxOpen>Maximum unanswered petitions: {0}</Petitions_Settings_MaxOpen>
+  <Petitions_Settings_PawnCooldown>Days before the same colonist petitions again: {0}</Petitions_Settings_PawnCooldown>
+  <Petitions_Settings_GrievanceCooldown>Days before the same colonist raises the same grievance again: {0}</Petitions_Settings_GrievanceCooldown>
+  <Petitions_Settings_Expiry>Days before an unanswered petition counts as ignored: {0}</Petitions_Settings_Expiry>
+  <Petitions_Settings_Section_Escalation>Escalation</Petitions_Settings_Section_Escalation>
+  <Petitions_Settings_EnableDisgruntled>Resentful colonists work slower</Petitions_Settings_EnableDisgruntled>
+  <Petitions_Settings_EnableDisgruntled_Tip>At resentment 55 or more, a colonist becomes disgruntled and works at 85% speed until it drops below 45.</Petitions_Settings_EnableDisgruntled_Tip>
+  <Petitions_Settings_EnableUltimatum>Ultimatums: very resentful colonists may leave</Petitions_Settings_EnableUltimatum>
+  <Petitions_Settings_EnableUltimatum_Tip>At resentment 80 or more, a colonist gives an ultimatum. If their resentment is still 70 or more after 3 days and no promise to them is pending, they give up and leave the colony.</Petitions_Settings_EnableUltimatum_Tip>
+  <Petitions_Settings_Section_AutoResponse>Automatic answers (click to change)</Petitions_Settings_Section_AutoResponse>
+  <Petitions_AutoResponse_Ask>Ask me</Petitions_AutoResponse_Ask>
+  <Petitions_AutoResponse_AlwaysAccept>Always accept</Petitions_AutoResponse_AlwaysAccept>
+  <Petitions_AutoResponse_AlwaysReject>Always reject</Petitions_AutoResponse_AlwaysReject>
+
+  <!-- Petition letter -->
+  <Petitions_Letter_Label>Petition: {PAWN_labelShort}</Petitions_Letter_Label>
+  <Petitions_Letter_Intro>{PAWN_nameDef} has come forward with a petition about {GRIEVANCE}. [PAWN_pronoun] is asking for {DEMAND}.</Petitions_Letter_Intro>
+  <Petitions_Letter_Cosigners>Also signed by: {NAMES}.</Petitions_Letter_Cosigners>
+  <Petitions_Letter_Causes>What is behind it:</Petitions_Letter_Causes>
+  <Petitions_Letter_AcceptRemedy>Accept: promise to fix this within {DAYS} days. The promise is kept once these thoughts have been gone for {HOLD} day(s) for every signer. If it isn't, the promise is broken.</Petitions_Letter_AcceptRemedy>
+  <Petitions_Letter_AcceptCessation>Accept: promise to stop this for {DAYS} days. If any signer learns of it happening again in that time, the promise is broken.</Petitions_Letter_AcceptCessation>
+  <Petitions_Letter_Persuade>Persuade: {NEGOTIATOR_nameDef} tries to talk the signers out of it. Chance of success: {CHANCE}. If it fails, they resent it more than a plain refusal.</Petitions_Letter_Persuade>
+  <Petitions_Letter_PersuadeNoNegotiator>Persuade: nobody is available to negotiate.</Petitions_Letter_PersuadeNoNegotiator>
+  <Petitions_Letter_Reject>Reject: the signers' mood and resentment suffer, and they think less of the negotiator.</Petitions_Letter_Reject>
+  <Petitions_Letter_Expiry>If you don't answer within {DAYS} days, the petition counts as ignored.</Petitions_Letter_Expiry>
+  <Petitions_Letter_OptionAccept>Accept and promise</Petitions_Letter_OptionAccept>
+  <Petitions_Letter_OptionPersuade>Have {NEGOTIATOR_labelShort} persuade them ({CHANCE})</Petitions_Letter_OptionPersuade>
+  <Petitions_Letter_OptionPersuadeNoNegotiator>Persuade them</Petitions_Letter_OptionPersuadeNoNegotiator>
+  <Petitions_Letter_OptionReject>Reject</Petitions_Letter_OptionReject>
+  <Petitions_NoNegotiator>Nobody who isn't a signer can negotiate right now.</Petitions_NoNegotiator>
+
+  <!-- Messages -->
+  <Petitions_Message_Accepted>You promised {PAWN_nameDef} to deal with {GRIEVANCE} within {DAYS} days.</Petitions_Message_Accepted>
+  <Petitions_Message_Persuaded>{NEGOTIATOR_nameDef} talked {PAWN_nameDef} out of the petition.</Petitions_Message_Persuaded>
+  <Petitions_Message_PersuasionFailed>{NEGOTIATOR_nameDef} failed to talk {PAWN_nameDef} out of the petition. The signers feel brushed off.</Petitions_Message_PersuasionFailed>
+  <Petitions_Message_Rejected>You rejected {PAWN_nameDef}'s petition.</Petitions_Message_Rejected>
+  <Petitions_Message_Ignored>{PAWN_nameDef}'s petition went unanswered and was ignored.</Petitions_Message_Ignored>
 
   <!-- Petitions tab -->
   <Petitions_Tab_Title>Grievances</Petitions_Tab_Title>

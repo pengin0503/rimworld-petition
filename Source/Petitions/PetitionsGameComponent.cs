@@ -150,9 +150,19 @@ namespace Petitions
             return state;
         }
 
+        /// <summary>The hourly update, in the order of spec section 3.2.</summary>
         private void Update(float hours)
         {
+            int now = Find.TickManager.TicksGame;
             RemoveStaleStates();
+            UpdatePressure(hours);
+            ExpireOpenPetitions(now);
+            TryCreatePetition(now);
+        }
+
+        /// <summary>Steps 1-2: scan thoughts and update pressure. Also remembers severities for promise tracking.</summary>
+        private void UpdatePressure(float hours)
+        {
             float decayPerDay = PetitionsMod.Settings.pressureDecayPerDay;
             List<GrievanceDef> grievances = DefDatabase<GrievanceDef>.AllDefsListForReading;
             foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
@@ -172,6 +182,47 @@ namespace Petitions
                 }
             }
             tmpSeverities.Clear();
+        }
+
+        /// <summary>Step 4.</summary>
+        private void ExpireOpenPetitions(int now)
+        {
+            int expiryTicks = (int)(PetitionsMod.Settings.petitionExpiryDays * GenDate.TicksPerDay);
+            for (int i = 0; i < petitions.Count; i++)
+            {
+                Petition petition = petitions[i];
+                if (petition.state == PetitionState.Open && now - petition.createdTick >= expiryTicks)
+                {
+                    PetitionResponder.Expire(petition);
+                }
+            }
+        }
+
+        /// <summary>Step 6.</summary>
+        private void TryCreatePetition(int now)
+        {
+            Petition petition = PetitionFactory.TryCreate(this, now);
+            if (petition != null)
+            {
+                Deliver(petition);
+            }
+        }
+
+        /// <summary>Sends the letter, or answers right away when the player chose an auto-response.</summary>
+        public static void Deliver(Petition petition)
+        {
+            switch (PetitionsMod.Settings.AutoResponseFor(petition.grievance))
+            {
+                case AutoResponse.AlwaysAccept:
+                    PetitionResponder.Accept(petition);
+                    break;
+                case AutoResponse.AlwaysReject:
+                    PetitionResponder.Reject(petition);
+                    break;
+                default:
+                    ChoiceLetter_Petition.Send(petition);
+                    break;
+            }
         }
 
         public static bool IsGone(Pawn pawn)

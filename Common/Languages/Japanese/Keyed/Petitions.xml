@@ -8,6 +8,46 @@
   <Petitions_Settings_PressureDecay>1日あたりの不満の減衰: {0}</Petitions_Settings_PressureDecay>
   <Petitions_Settings_PressureDecay_Tip>原因がなくなっている間に、不満圧が1日あたりどれだけ減るかです。</Petitions_Settings_PressureDecay_Tip>
   <Petitions_Settings_Reset>初期値に戻す</Petitions_Settings_Reset>
+  <Petitions_Settings_Section_Grievances>不満</Petitions_Settings_Section_Grievances>
+  <Petitions_Settings_Section_Frequency>陳情の頻度</Petitions_Settings_Section_Frequency>
+  <Petitions_Settings_MinDaysBetween>陳情の最短間隔(日): {0}</Petitions_Settings_MinDaysBetween>
+  <Petitions_Settings_MaxOpen>未回答の陳情の上限: {0}</Petitions_Settings_MaxOpen>
+  <Petitions_Settings_PawnCooldown>同じ入植者が次に陳情できるまでの日数: {0}</Petitions_Settings_PawnCooldown>
+  <Petitions_Settings_GrievanceCooldown>同じ入植者が同じ不満で次に陳情できるまでの日数: {0}</Petitions_Settings_GrievanceCooldown>
+  <Petitions_Settings_Expiry>未回答の陳情が「無視された」になるまでの日数: {0}</Petitions_Settings_Expiry>
+  <Petitions_Settings_Section_Escalation>エスカレーション</Petitions_Settings_Section_Escalation>
+  <Petitions_Settings_EnableDisgruntled>恨みを抱えた入植者は作業が遅くなる</Petitions_Settings_EnableDisgruntled>
+  <Petitions_Settings_EnableDisgruntled_Tip>恨みが 55 以上になると「不満による怠業」になり、45 未満に下がるまで作業速度が 85% になります。</Petitions_Settings_EnableDisgruntled_Tip>
+  <Petitions_Settings_EnableUltimatum>最後通牒: 恨みが極めて強い入植者は去ることがある</Petitions_Settings_EnableUltimatum>
+  <Petitions_Settings_EnableUltimatum_Tip>恨みが 80 以上になると、入植者は最後通牒を突きつけます。3日後も恨みが 70 以上で、その入植者への約束が進行中でなければ、あきらめてコロニーを去ります。</Petitions_Settings_EnableUltimatum_Tip>
+  <Petitions_Settings_Section_AutoResponse>自動応答(クリックで切り替え)</Petitions_Settings_Section_AutoResponse>
+  <Petitions_AutoResponse_Ask>毎回確認する</Petitions_AutoResponse_Ask>
+  <Petitions_AutoResponse_AlwaysAccept>常に受諾する</Petitions_AutoResponse_AlwaysAccept>
+  <Petitions_AutoResponse_AlwaysReject>常に却下する</Petitions_AutoResponse_AlwaysReject>
+
+  <!-- 陳情の手紙 -->
+  <Petitions_Letter_Label>陳情: {PAWN_labelShort}</Petitions_Letter_Label>
+  <Petitions_Letter_Intro>{PAWN_nameDef}が「{GRIEVANCE}」について陳情してきました。求めているのは{DEMAND}です。</Petitions_Letter_Intro>
+  <Petitions_Letter_Cosigners>連名者: {NAMES}</Petitions_Letter_Cosigners>
+  <Petitions_Letter_Causes>背景にあるもの:</Petitions_Letter_Causes>
+  <Petitions_Letter_AcceptRemedy>受諾する: {DAYS}日以内に改善すると約束します。署名者全員について、これらの思考が{HOLD}日続けて消えていれば、約束を果たしたことになります。果たせなければ約束違反です。</Petitions_Letter_AcceptRemedy>
+  <Petitions_Letter_AcceptCessation>受諾する: {DAYS}日間、この行為をやめると約束します。その間に、署名者の誰かがまた同じことが起きたと知れば、約束違反です。</Petitions_Letter_AcceptCessation>
+  <Petitions_Letter_Persuade>説得する: {NEGOTIATOR_nameDef}が署名者を説得し、陳情を取り下げさせようとします。成功率: {CHANCE}。失敗すると、ただ却下したときより強く恨まれます。</Petitions_Letter_Persuade>
+  <Petitions_Letter_PersuadeNoNegotiator>説得する: 交渉できる人がいません。</Petitions_Letter_PersuadeNoNegotiator>
+  <Petitions_Letter_Reject>却下する: 署名者の気分が下がって恨みが増え、交渉役への評価も下がります。</Petitions_Letter_Reject>
+  <Petitions_Letter_Expiry>{DAYS}日以内に答えなければ、陳情は無視されたものとして扱われます。</Petitions_Letter_Expiry>
+  <Petitions_Letter_OptionAccept>受諾して約束する</Petitions_Letter_OptionAccept>
+  <Petitions_Letter_OptionPersuade>{NEGOTIATOR_labelShort}に説得させる({CHANCE})</Petitions_Letter_OptionPersuade>
+  <Petitions_Letter_OptionPersuadeNoNegotiator>説得する</Petitions_Letter_OptionPersuadeNoNegotiator>
+  <Petitions_Letter_OptionReject>却下する</Petitions_Letter_OptionReject>
+  <Petitions_NoNegotiator>署名者以外に、今交渉できる人がいません。</Petitions_NoNegotiator>
+
+  <!-- 通知 -->
+  <Petitions_Message_Accepted>{PAWN_nameDef}に、{DAYS}日以内に「{GRIEVANCE}」に対処すると約束しました。</Petitions_Message_Accepted>
+  <Petitions_Message_Persuaded>{NEGOTIATOR_nameDef}が{PAWN_nameDef}を説得し、陳情を取り下げさせました。</Petitions_Message_Persuaded>
+  <Petitions_Message_PersuasionFailed>{NEGOTIATOR_nameDef}は{PAWN_nameDef}の説得に失敗しました。署名者は話を聞いてもらえなかったと感じています。</Petitions_Message_PersuasionFailed>
+  <Petitions_Message_Rejected>{PAWN_nameDef}の陳情を却下しました。</Petitions_Message_Rejected>
+  <Petitions_Message_Ignored>{PAWN_nameDef}の陳情は答えのないまま放置され、無視されたことになりました。</Petitions_Message_Ignored>
 
   <!-- 陳情タブ -->
   <Petitions_Tab_Title>不満</Petitions_Tab_Title>
