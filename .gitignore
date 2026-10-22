@@ -12,3 +12,4 @@ obj/
 .idea/
 *.user
 *.DotSettings.user
+.superpowers/
