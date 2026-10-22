@@ -67,11 +67,6 @@ namespace Petitions
             }
             int holdTicks = (int)(petition.grievance.remedyHoldDays * GenDate.TicksPerDay);
             PromiseStatus status = PromiseEvaluator.EvaluateRemedy(nowTick, petition.promiseDeadlineTick, holdTicks, tmpClearSince);
-            // With nobody at home to judge, a deadline still breaks the promise.
-            if (tmpClearSince.Count == 0 && nowTick >= petition.promiseDeadlineTick)
-            {
-                status = PromiseStatus.Broken;
-            }
             tmpClearSince.Clear();
             return status;
         }

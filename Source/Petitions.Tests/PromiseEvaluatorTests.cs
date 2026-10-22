@@ -36,9 +36,15 @@ public class PromiseEvaluatorTests
     }
 
     [Fact]
-    public void Remedy_NoPresentSignersStaysPending()
+    public void Remedy_NoPresentSignersStaysPendingBeforeDeadline()
     {
-        Assert.Equal(PromiseStatus.Pending, PromiseEvaluator.EvaluateRemedy(300_000, 200_000, 60_000, new int[0]));
+        Assert.Equal(PromiseStatus.Pending, PromiseEvaluator.EvaluateRemedy(100_000, 200_000, 60_000, new int[0]));
+    }
+
+    [Fact]
+    public void Remedy_NoPresentSignersBreaksAtDeadline()
+    {
+        Assert.Equal(PromiseStatus.Broken, PromiseEvaluator.EvaluateRemedy(200_000, 200_000, 60_000, new int[0]));
     }
 
     [Fact]

@@ -14,13 +14,14 @@ namespace Petitions.Core
     {
         /// <param name="clearSinceTicks">
         /// One entry per signer currently at home: the tick since which the grievance's thoughts
-        /// have been absent, or -1 while they are present. Empty means nobody can be judged yet.
+        /// have been absent, or -1 while they are present. Empty means nobody can be judged; the
+        /// promise then waits, but still breaks at the deadline so it cannot hang forever.
         /// </param>
         public static PromiseStatus EvaluateRemedy(int nowTick, int deadlineTick, int holdTicks, IReadOnlyList<int> clearSinceTicks)
         {
             if (clearSinceTicks.Count == 0)
             {
-                return PromiseStatus.Pending;
+                return nowTick >= deadlineTick ? PromiseStatus.Broken : PromiseStatus.Pending;
             }
             bool allHeld = true;
             for (int i = 0; i < clearSinceTicks.Count; i++)
