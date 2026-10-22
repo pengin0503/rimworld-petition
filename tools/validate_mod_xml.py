@@ -176,7 +176,7 @@ def check_def_injected(grievances):
                 fields = def_fields.get((folder.name, def_name))
                 if fields is None:
                     error(f"DefInjected {folder.name}/{path.name}: unknown def {def_name}")
-                elif field not in fields:
+                elif field.split(".")[0] not in fields:
                     error(f"DefInjected {folder.name}/{path.name}: {def_name} has no field {field}")
     for def_name in grievances:
         for field in ("label", "description", "demand"):
@@ -187,6 +187,51 @@ def check_def_injected(grievances):
                     found = True
             if not found:
                 error(f"DefInjected Japanese: {def_name}.{field} is not translated")
+
+
+# Translated fields required for the mod's own defs, per def type.
+REQUIRED_TRANSLATIONS = {
+    "ThoughtDef": ("stages.0.label", "stages.0.description"),
+    "HediffDef": ("label", "description"),
+    "MainButtonDef": ("label", "description"),
+}
+
+
+def check_custom_def_translations():
+    injected_root = ROOT / "Common" / "Languages" / "Japanese" / "DefInjected"
+    for path in sorted((ROOT / "Common" / "Defs").rglob("*.xml")):
+        root = parse(path)
+        if root is None:
+            continue
+        for node in root:
+            fields = REQUIRED_TRANSLATIONS.get(node.tag)
+            def_name = node.findtext("defName")
+            if not fields or not def_name:
+                continue
+            translated = set()
+            for injected in (injected_root / node.tag).rglob("*.xml"):
+                injected_xml = parse(injected)
+                if injected_xml is not None:
+                    translated.update(child.tag for child in injected_xml)
+            for field in fields:
+                if f"{def_name}.{field}" not in translated:
+                    error(f"DefInjected Japanese: {node.tag} {def_name}.{field} is not translated")
+
+
+def check_defof():
+    """Every field of PetitionsDefOf must name a def defined in Common/Defs."""
+    source = ROOT / "Source" / "Petitions" / "PetitionsDefOf.cs"
+    if not source.exists():
+        error("Source/Petitions/PetitionsDefOf.cs is missing")
+        return
+    defined = set()
+    for path in sorted((ROOT / "Common" / "Defs").rglob("*.xml")):
+        root = parse(path)
+        if root is not None:
+            defined.update((node.tag, node.findtext("defName")) for node in root if node.findtext("defName"))
+    for def_type, name in re.findall(r"public static (\w+Def) (\w+);", source.read_text(encoding="utf-8")):
+        if (def_type, name) not in defined:
+            error(f"PetitionsDefOf.{name}: no {def_type} with that defName in Common/Defs")
 
 
 def main():
@@ -200,6 +245,8 @@ def main():
         check_thoughts(grievances, args.core)
     check_keyed()
     check_def_injected(grievances)
+    check_custom_def_translations()
+    check_defof()
 
     if errors:
         print("\n".join(errors))

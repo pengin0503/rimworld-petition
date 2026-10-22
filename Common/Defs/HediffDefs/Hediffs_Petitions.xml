@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Resentment stage 2 "Disgruntled" (spec section 2.7). Added and removed by the mod. -->
+  <HediffDef>
+    <defName>Petitions_Disgruntled</defName>
+    <label>disgruntled</label>
+    <description>Resentful about grievances that the colony keeps ignoring. Works slowly and without heart. This goes away once the resentment fades.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.9, 0.7, 0.5)</defaultLabelColor>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <statFactors>
+          <WorkSpeedGlobal>0.85</WorkSpeedGlobal>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

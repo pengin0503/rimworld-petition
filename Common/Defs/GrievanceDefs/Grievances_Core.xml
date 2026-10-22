@@ -17,7 +17,8 @@
 
   <Petitions.GrievanceDef Abstract="True" Name="Petitions_CessationBase">
     <kind>Cessation</kind>
-    <pressureThreshold>25</pressureThreshold>
+    <!-- One ordinary execution (-5 for 6 days) is enough; one justified execution (-2 for 6 days) is not. -->
+    <pressureThreshold>20</pressureThreshold>
     <promiseDays>15</promiseDays>
     <persuasionDifficulty>0.15</persuasionDifficulty>
   </Petitions.GrievanceDef>
@@ -53,6 +54,8 @@
     <label>rest and recreation</label>
     <description>Going without enough recreation.</description>
     <demand>time off and something to do with it</demand>
+    <!-- Recreation thoughts are large (-5 to -20), so this needs more pressure. -->
+    <pressureThreshold>30</pressureThreshold>
     <thoughts>
       <li>NeedJoy</li>          <!-- -5 to -20; positive stages are ignored -->
     </thoughts>
