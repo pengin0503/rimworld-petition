@@ -23,6 +23,17 @@ namespace Petitions
         /// <summary>Negative mood thoughts that count as evidence of this grievance.</summary>
         public List<ThoughtDef> thoughts = new List<ThoughtDef>();
 
+        /// <summary>
+        /// Any memory thought a precept gives for one of these events also counts. This catches
+        /// ideoligion precept thoughts whose names this mod cannot know (spec section 10.1).
+        /// </summary>
+        public List<HistoryEventDef> historyEvents = new List<HistoryEventDef>();
+
+        public bool Matches(ThoughtDef thought)
+        {
+            return PreceptThoughtIndex.Index.Matches(thought, thoughts, historyEvents);
+        }
+
         /// <summary>Pressure (mood points x days) at which the pawn files a petition.</summary>
         public float pressureThreshold = 25f;
 
@@ -48,13 +59,14 @@ namespace Petitions
             {
                 yield return error;
             }
-            if (thoughts.NullOrEmpty())
+            if (thoughts.NullOrEmpty() && historyEvents.NullOrEmpty())
             {
-                yield return "has no thoughts.";
+                yield return "has no thoughts or historyEvents.";
             }
-            else if (kind == GrievanceKind.Cessation)
+            else if (kind == GrievanceKind.Cessation && thoughts != null)
             {
                 // Cessation detects new occurrences by memory age; situational thoughts have no age.
+                // Thoughts found through historyEvents always come from memory-thought precept comps.
                 foreach (ThoughtDef thought in thoughts)
                 {
                     if (thought != null && !thought.IsMemory)

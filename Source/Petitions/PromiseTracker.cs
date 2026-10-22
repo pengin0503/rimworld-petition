@@ -71,7 +71,9 @@ namespace Petitions
                 }
                 for (int j = 0; j < memories.Count; j++)
                 {
-                    if (memories[j].age < sincePromise && petition.grievance.thoughts.Contains(memories[j].def))
+                    if (PromiseEvaluator.IsNewSincePromise(memories[j].age, sincePromise)
+                        && petition.grievance.Matches(memories[j].def)
+                        && memories[j].MoodOffset() < 0f)
                     {
                         return true;
                     }

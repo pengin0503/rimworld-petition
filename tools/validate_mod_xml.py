@@ -83,11 +83,13 @@ def load_grievances():
                 error(f"{GRIEVANCE_TAG} {def_name}: unknown kind {kind}")
             thoughts_node = field("thoughts")
             thoughts = [li.text.strip() for li in thoughts_node.findall("li")] if thoughts_node is not None else []
-            if not thoughts:
-                error(f"{GRIEVANCE_TAG} {def_name}: no thoughts")
+            events_node = field("historyEvents")
+            events = [li.text.strip() for li in events_node.findall("li")] if events_node is not None else []
+            if not thoughts and not events:
+                error(f"{GRIEVANCE_TAG} {def_name}: no thoughts or historyEvents")
             if def_name in grievances:
                 error(f"{GRIEVANCE_TAG} {def_name}: duplicate defName")
-            grievances[def_name] = {"kind": kind, "thoughts": thoughts}
+            grievances[def_name] = {"kind": kind, "thoughts": thoughts, "events": events}
     return grievances
 
 
@@ -119,7 +121,15 @@ def load_core_thoughts(core_defs):
 
 def check_thoughts(grievances, core_defs):
     core = load_core_thoughts(core_defs)
+    core_events = set()
+    for path in sorted(core_defs.rglob("*.xml")):
+        for node in ET.parse(path).getroot():
+            if node.tag == "HistoryEventDef" and node.findtext("defName"):
+                core_events.add(node.findtext("defName"))
     for def_name, grievance in grievances.items():
+        for event in grievance["events"]:
+            if event not in core_events:
+                error(f"{GRIEVANCE_TAG} {def_name}: history event {event} not found in Core")
         for thought in grievance["thoughts"]:
             info = core.get(thought)
             if info is None:

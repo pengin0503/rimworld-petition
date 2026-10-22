@@ -71,6 +71,11 @@
       <li>ObservedLayingRottingCorpse</li>  <!-- -6 -->
       <li>ColonistLeftUnburied</li>         <!-- -10 -->
     </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ObservedLayingCorpse</li>
+      <li>ObservedLayingRottingCorpse</li>
+    </historyEvents>
   </Petitions.GrievanceDef>
 
   <!-- ===== Cessation ===== -->
@@ -84,6 +89,11 @@
       <li>KnowGuestOrganHarvested</li>     <!-- -5, 8 days -->
       <li>KnowColonistOrganHarvested</li>  <!-- -5, 8 days -->
     </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>HarvestedOrganFromGuest</li>
+      <li>HarvestedOrganFromColonist</li>
+    </historyEvents>
   </Petitions.GrievanceDef>
 
   <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
@@ -95,6 +105,12 @@
       <li>KnowGuestExecuted</li>     <!-- -2 to -6, 6 days -->
       <li>KnowColonistExecuted</li>  <!-- -2 to -6, 6 days -->
     </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ExecutedPrisoner</li>
+      <li>ExecutedGuest</li>
+      <li>ExecutedColonist</li>
+    </historyEvents>
   </Petitions.GrievanceDef>
 
   <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
@@ -106,6 +122,10 @@
     <thoughts>
       <li>KnowPrisonerSold</li>  <!-- -3, 4 days -->
     </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>SoldSlave</li>
+    </historyEvents>
   </Petitions.GrievanceDef>
 
   <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
@@ -116,6 +136,10 @@
     <thoughts>
       <li>KnowButcheredHumanlikeCorpse</li>  <!-- -6, 6 days -->
     </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ButcheredHuman</li>
+    </historyEvents>
   </Petitions.GrievanceDef>
 
 </Defs>

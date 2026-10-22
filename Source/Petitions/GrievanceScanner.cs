@@ -20,12 +20,14 @@ namespace Petitions
             {
                 if (grievancesByThought == null)
                 {
+                    // Built once from every thought, so grievances matched by history event are included.
                     grievancesByThought = new Dictionary<ThoughtDef, List<GrievanceDef>>();
-                    foreach (GrievanceDef grievance in DefDatabase<GrievanceDef>.AllDefsListForReading)
+                    List<GrievanceDef> grievances = DefDatabase<GrievanceDef>.AllDefsListForReading;
+                    foreach (ThoughtDef thought in DefDatabase<ThoughtDef>.AllDefsListForReading)
                     {
-                        foreach (ThoughtDef thought in grievance.thoughts)
+                        for (int i = 0; i < grievances.Count; i++)
                         {
-                            if (thought == null)
+                            if (!grievances[i].Matches(thought))
                             {
                                 continue;
                             }
@@ -34,7 +36,7 @@ namespace Petitions
                                 list = new List<GrievanceDef>();
                                 grievancesByThought.Add(thought, list);
                             }
-                            list.Add(grievance);
+                            list.Add(grievances[i]);
                         }
                     }
                 }
@@ -55,7 +57,7 @@ namespace Petitions
             for (int i = 0; i < tmpGroups.Count; i++)
             {
                 Thought group = tmpGroups[i];
-                if (!grievance.thoughts.Contains(group.def))
+                if (!grievance.Matches(group.def))
                 {
                     continue;
                 }
