@@ -24,6 +24,9 @@ namespace Petitions
 
         public int lastColonyPetitionTick = -1;
 
+        /// <summary>The negotiator the player chose, or null for automatic (spec section 10.3).</summary>
+        public Pawn assignedNegotiator;
+
         private readonly Dictionary<GrievanceDef, float> tmpSeverities = new Dictionary<GrievanceDef, float>();
 
         public PetitionsGameComponent(Game game)
@@ -286,6 +289,10 @@ namespace Petitions
         private void RemoveStaleStates()
         {
             states.RemoveAll(state => IsGone(state.pawn));
+            if (assignedNegotiator != null && IsGone(assignedNegotiator))
+            {
+                assignedNegotiator = null;
+            }
         }
 
         public override void ExposeData()
@@ -294,6 +301,7 @@ namespace Petitions
             Scribe_Collections.Look(ref petitions, "petitions", LookMode.Deep);
             Scribe_Values.Look(ref nextPetitionId, "nextPetitionId", 1);
             Scribe_Values.Look(ref lastColonyPetitionTick, "lastColonyPetitionTick", -1);
+            Scribe_References.Look(ref assignedNegotiator, "assignedNegotiator");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 // Saves from the skeleton version have no petitions.

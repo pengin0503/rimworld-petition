@@ -5,32 +5,33 @@ using Verse;
 
 namespace Petitions
 {
-    /// <summary>Who answers petitions for the colony, and how persuasive they are (spec section 2.5).</summary>
+    /// <summary>Who answers petitions for the colony, and how persuasive they are (spec sections 2.5, 10.3).</summary>
     public static class Negotiator
     {
+        /// <summary>The assigned negotiator if able, else the ideoligion leader, else the best negotiator; never a signer.</summary>
         public static Pawn Find(IReadOnlyCollection<Pawn> excludedSigners)
         {
-            Pawn leader = IdeoLeader();
-            if (leader != null && CanNegotiate(leader, excludedSigners))
-            {
-                return leader;
-            }
-            Pawn best = null;
-            float bestAbility = float.MinValue;
+            return NegotiatorSelector.Select(
+                PetitionsGameComponent.Instance?.assignedNegotiator,
+                IdeoLeader(),
+                Candidates(),
+                pawn => CanNegotiate(pawn, excludedSigners));
+        }
+
+        /// <summary>Who answers when there are no signers to exclude; shown in the Petitions tab.</summary>
+        public static Pawn Current => Find(System.Array.Empty<Pawn>());
+
+        private static IEnumerable<(Pawn pawn, float ability)> Candidates()
+        {
             foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
             {
-                if (!CanNegotiate(pawn, excludedSigners))
-                {
-                    continue;
-                }
-                float ability = pawn.GetStatValue(StatDefOf.NegotiationAbility);
-                if (ability > bestAbility)
-                {
-                    best = pawn;
-                    bestAbility = ability;
-                }
+                yield return (pawn, pawn.GetStatValue(StatDefOf.NegotiationAbility));
             }
-            return best;
+        }
+
+        public static bool CanEverNegotiate(Pawn pawn)
+        {
+            return CanNegotiate(pawn, System.Array.Empty<Pawn>());
         }
 
         public static float PersuasionChance(Pawn negotiator, Petition petition)

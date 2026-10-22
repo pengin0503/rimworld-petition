@@ -88,6 +88,20 @@
   <Petitions_Tab_ResentmentTip>Resentment, 0 to 100. Grumbling from 30, disgruntled from 55, ultimatum from 80.</Petitions_Tab_ResentmentTip>
   <Petitions_Tab_PressureTip>Grievance pressure / pressure needed to petition.</Petitions_Tab_PressureTip>
   <Petitions_Tab_UltimatumLeft>({0} left)</Petitions_Tab_UltimatumLeft>
+  <Petitions_Tab_Negotiator>Negotiator:</Petitions_Tab_Negotiator>
+  <Petitions_Tab_NegotiatorTip>Who answers petitions and tries persuasion. Automatic picks the ideoligion leader, or else the best negotiator who didn't sign the petition.</Petitions_Tab_NegotiatorTip>
+  <Petitions_Tab_NegotiatorAuto>Automatic (now: {0})</Petitions_Tab_NegotiatorAuto>
+  <Petitions_Tab_NegotiatorAutoOption>Automatic</Petitions_Tab_NegotiatorAutoOption>
+  <Petitions_Tab_NoNegotiatorShort>nobody</Petitions_Tab_NoNegotiatorShort>
+  <Petitions_Tab_NegotiatorUnavailable>Unavailable right now; {0} negotiates instead.</Petitions_Tab_NegotiatorUnavailable>
+  <Petitions_Tab_History>Recent petitions</Petitions_Tab_History>
+  <Petitions_Outcome_Kept>promise kept</Petitions_Outcome_Kept>
+  <Petitions_Outcome_Broken>promise broken</Petitions_Outcome_Broken>
+  <Petitions_Outcome_Rejected>rejected</Petitions_Outcome_Rejected>
+  <Petitions_Outcome_Ignored>ignored</Petitions_Outcome_Ignored>
+  <Petitions_Outcome_Persuaded>talked out of it</Petitions_Outcome_Persuaded>
+  <Petitions_Outcome_PersuasionFailed>persuasion failed</Petitions_Outcome_PersuasionFailed>
+  <Petitions_Outcome_Withdrawn>withdrawn (no signers left)</Petitions_Outcome_Withdrawn>
   <Petitions_StageLabel_Calm>calm</Petitions_StageLabel_Calm>
   <Petitions_StageLabel_Grumbling>grumbling</Petitions_StageLabel_Grumbling>
   <Petitions_StageLabel_Disgruntled>disgruntled</Petitions_StageLabel_Disgruntled>

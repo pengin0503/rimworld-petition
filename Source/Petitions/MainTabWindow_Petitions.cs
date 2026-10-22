@@ -36,13 +36,85 @@ namespace Petitions
             Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, lastHeight);
             Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
             float curY = 0f;
+            DrawNegotiator(comp, ref curY, viewRect.width);
             DrawOpenPetitions(comp, ref curY, viewRect.width);
             DrawPromises(comp, ref curY, viewRect.width);
             DrawColonists(comp, ref curY, viewRect.width);
+            DrawHistory(comp, ref curY, viewRect.width);
             lastHeight = curY + 12f;
             Widgets.EndScrollView();
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+        }
+
+        /// <summary>Lets the player pick the negotiator, or leave it automatic (spec section 10.3).</summary>
+        private static void DrawNegotiator(PetitionsGameComponent comp, ref float curY, float width)
+        {
+            Rect row = new Rect(0f, curY, width, RowHeight + 4f);
+            float x = 0f;
+            DrawCell(row, ref x, NameWidth + 40f, "Petitions_Tab_Negotiator".Translate(), "Petitions_Tab_NegotiatorTip".Translate());
+            Pawn current = Negotiator.Current;
+            string currentLabel = current?.LabelShortCap ?? "Petitions_Tab_NoNegotiatorShort".Translate().ToString();
+            string buttonLabel = comp.assignedNegotiator == null
+                ? "Petitions_Tab_NegotiatorAuto".Translate(currentLabel).ToString()
+                : comp.assignedNegotiator.LabelShortCap;
+            if (Widgets.ButtonText(new Rect(x, row.y + 2f, 260f, RowHeight), buttonLabel))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>
+                {
+                    new FloatMenuOption("Petitions_Tab_NegotiatorAutoOption".Translate(), () => comp.assignedNegotiator = null),
+                };
+                foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned.Where(Negotiator.CanEverNegotiate))
+                {
+                    string label = pawn.LabelShortCap + " (" + pawn.GetStatValue(StatDefOf.NegotiationAbility).ToStringPercent() + ")";
+                    options.Add(new FloatMenuOption(label, () => comp.assignedNegotiator = pawn));
+                }
+                Find.WindowStack.Add(new FloatMenu(options));
+            }
+            x += 266f;
+            if (comp.assignedNegotiator != null && current != comp.assignedNegotiator)
+            {
+                GUI.color = Color.yellow;
+                DrawCell(row, ref x, width - x, "Petitions_Tab_NegotiatorUnavailable".Translate(currentLabel));
+                GUI.color = Color.white;
+            }
+            curY += row.height + 4f;
+        }
+
+        private static void DrawHistory(PetitionsGameComponent comp, ref float curY, float width)
+        {
+            curY += 8f;
+            Widgets.ListSeparator(ref curY, width, "Petitions_Tab_History".Translate());
+            List<Petition> closed = comp.Petitions.Where(p => !p.IsActive).OrderByDescending(p => p.id).ToList();
+            if (closed.Count == 0)
+            {
+                DrawNote(ref curY, width, "Petitions_Tab_None".Translate());
+                return;
+            }
+            foreach (Petition petition in closed)
+            {
+                Rect row = new Rect(0f, curY, width, RowHeight);
+                Widgets.DrawHighlightIfMouseover(row);
+                float x = DrawSigners(row, petition);
+                DrawCell(row, ref x, GrievanceWidth, petition.grievance.LabelCap, petition.grievance.description);
+                DrawCell(row, ref x, width - x, OutcomeLabel(petition.state));
+                curY += RowHeight;
+            }
+        }
+
+        public static string OutcomeLabel(PetitionState state)
+        {
+            switch (state)
+            {
+                case PetitionState.Kept: return "Petitions_Outcome_Kept".Translate();
+                case PetitionState.Broken: return "Petitions_Outcome_Broken".Translate();
+                case PetitionState.Rejected: return "Petitions_Outcome_Rejected".Translate();
+                case PetitionState.Ignored: return "Petitions_Outcome_Ignored".Translate();
+                case PetitionState.Persuaded: return "Petitions_Outcome_Persuaded".Translate();
+                case PetitionState.PersuasionFailed: return "Petitions_Outcome_PersuasionFailed".Translate();
+                case PetitionState.Withdrawn: return "Petitions_Outcome_Withdrawn".Translate();
+                default: return state.ToString();
+            }
         }
 
         private static void DrawOpenPetitions(PetitionsGameComponent comp, ref float curY, float width)

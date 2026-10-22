@@ -88,6 +88,20 @@
   <Petitions_Tab_ResentmentTip>恨み(0〜100)。30 から不平、55 から怠業、80 から最後通牒。</Petitions_Tab_ResentmentTip>
   <Petitions_Tab_PressureTip>不満圧 / 陳情に必要な不満圧</Petitions_Tab_PressureTip>
   <Petitions_Tab_UltimatumLeft>(残り{0})</Petitions_Tab_UltimatumLeft>
+  <Petitions_Tab_Negotiator>交渉役:</Petitions_Tab_Negotiator>
+  <Petitions_Tab_NegotiatorTip>陳情に応対し、説得を担当する人です。「自動」では、イデオロギーの指導者、いなければ陳情に署名していない人の中で交渉能力が最も高い人が選ばれます。</Petitions_Tab_NegotiatorTip>
+  <Petitions_Tab_NegotiatorAuto>自動(現在: {0})</Petitions_Tab_NegotiatorAuto>
+  <Petitions_Tab_NegotiatorAutoOption>自動</Petitions_Tab_NegotiatorAutoOption>
+  <Petitions_Tab_NoNegotiatorShort>なし</Petitions_Tab_NoNegotiatorShort>
+  <Petitions_Tab_NegotiatorUnavailable>今は対応できないため、代わりに{0}が交渉します。</Petitions_Tab_NegotiatorUnavailable>
+  <Petitions_Tab_History>最近の陳情</Petitions_Tab_History>
+  <Petitions_Outcome_Kept>約束を果たした</Petitions_Outcome_Kept>
+  <Petitions_Outcome_Broken>約束を破った</Petitions_Outcome_Broken>
+  <Petitions_Outcome_Rejected>却下</Petitions_Outcome_Rejected>
+  <Petitions_Outcome_Ignored>無視</Petitions_Outcome_Ignored>
+  <Petitions_Outcome_Persuaded>説得して取り下げさせた</Petitions_Outcome_Persuaded>
+  <Petitions_Outcome_PersuasionFailed>説得に失敗</Petitions_Outcome_PersuasionFailed>
+  <Petitions_Outcome_Withdrawn>取り下げ(署名者がいなくなった)</Petitions_Outcome_Withdrawn>
   <Petitions_StageLabel_Calm>平常</Petitions_StageLabel_Calm>
   <Petitions_StageLabel_Grumbling>不平</Petitions_StageLabel_Grumbling>
   <Petitions_StageLabel_Disgruntled>怠業</Petitions_StageLabel_Disgruntled>
