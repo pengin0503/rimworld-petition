@@ -21,6 +21,9 @@ namespace Petitions
 
         /// <summary>Closed without effect because no signer is left.</summary>
         Withdrawn,
+
+        /// <summary>Remedy promise closed without effect because no signer was at home to judge it.</summary>
+        Unjudged,
     }
 
     /// <summary>One petition and, once accepted, its promise (spec sections 2.3-2.4).</summary>
@@ -50,6 +53,12 @@ namespace Petitions
         /// <summary>Created from an ultimatum letter rather than by the pawn speaking up.</summary>
         public bool fromUltimatum;
 
+        /// <summary>Remedy only: how far the deadline has been moved for signers who were away.</summary>
+        public int absenceExtensionTicks;
+
+        /// <summary>Remedy only: at the last update no signer was at home to be judged.</summary>
+        public bool nobodyJudgeableLastUpdate;
+
         public Pawn Petitioner => signers.Count > 0 ? signers[0] : null;
 
         public int CosignerCount => System.Math.Max(0, signers.Count - 1);
@@ -72,6 +81,8 @@ namespace Petitions
             Scribe_Values.Look(ref promiseStartTick, "promiseStartTick", -1);
             Scribe_Values.Look(ref promiseDeadlineTick, "promiseDeadlineTick", -1);
             Scribe_Values.Look(ref fromUltimatum, "fromUltimatum");
+            Scribe_Values.Look(ref absenceExtensionTicks, "absenceExtensionTicks");
+            Scribe_Values.Look(ref nobodyJudgeableLastUpdate, "nobodyJudgeableLastUpdate");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 signers ??= new List<Pawn>();

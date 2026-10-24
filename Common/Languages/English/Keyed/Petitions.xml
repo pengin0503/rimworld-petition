@@ -48,6 +48,7 @@
   <Petitions_Message_PersuasionFailed>{NEGOTIATOR_nameDef} failed to talk {PAWN_nameDef} out of the petition. The signers feel brushed off.</Petitions_Message_PersuasionFailed>
   <Petitions_Message_Rejected>You rejected {PAWN_nameDef}'s petition.</Petitions_Message_Rejected>
   <Petitions_Message_Ignored>{PAWN_nameDef}'s petition went unanswered and was ignored.</Petitions_Message_Ignored>
+  <Petitions_Message_PromiseUnjudged>Nobody who signed {PAWN_nameDef}'s petition about {GRIEVANCE} was at home to judge the promise, so it closed without effect.</Petitions_Message_PromiseUnjudged>
 
   <!-- Promises -->
   <Petitions_PromiseKept_Label>Promise kept</Petitions_PromiseKept_Label>
@@ -102,6 +103,7 @@
   <Petitions_Outcome_Persuaded>talked out of it</Petitions_Outcome_Persuaded>
   <Petitions_Outcome_PersuasionFailed>persuasion failed</Petitions_Outcome_PersuasionFailed>
   <Petitions_Outcome_Withdrawn>withdrawn (no signers left)</Petitions_Outcome_Withdrawn>
+  <Petitions_Outcome_Unjudged>closed (signers were away)</Petitions_Outcome_Unjudged>
   <Petitions_StageLabel_Calm>calm</Petitions_StageLabel_Calm>
   <Petitions_StageLabel_Grumbling>grumbling</Petitions_StageLabel_Grumbling>
   <Petitions_StageLabel_Disgruntled>disgruntled</Petitions_StageLabel_Disgruntled>

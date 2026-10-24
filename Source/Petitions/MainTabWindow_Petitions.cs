@@ -113,6 +113,7 @@ namespace Petitions
                 case PetitionState.Persuaded: return "Petitions_Outcome_Persuaded".Translate();
                 case PetitionState.PersuasionFailed: return "Petitions_Outcome_PersuasionFailed".Translate();
                 case PetitionState.Withdrawn: return "Petitions_Outcome_Withdrawn".Translate();
+                case PetitionState.Unjudged: return "Petitions_Outcome_Unjudged".Translate();
                 default: return state.ToString();
             }
         }
