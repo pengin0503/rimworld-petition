@@ -42,9 +42,63 @@ public class PromiseEvaluatorTests
     }
 
     [Fact]
-    public void Remedy_NoPresentSignersBreaksAtDeadline()
+    public void Remedy_NoPresentSignersIsUnjudgedAtDeadline()
     {
-        Assert.Equal(PromiseStatus.Broken, PromiseEvaluator.EvaluateRemedy(200_000, 200_000, 60_000, new int[0]));
+        // Issue #5: nobody could see the promise kept or broken, so it is not a broken promise.
+        Assert.Equal(PromiseStatus.Unjudged, PromiseEvaluator.EvaluateRemedy(200_000, 200_000, 60_000, new int[0]));
+    }
+
+    // Issue #2's case: promise 1000..901000, last update before the deadline at 900000, next at 902500.
+    [Theory]
+    [InlineData(1000, 902_500, false)]   // gained at 901500, after the deadline: the promise was kept
+    [InlineData(2000, 902_500, true)]    // gained at 900500, before the deadline: found one update later, still broken
+    [InlineData(901_200, 902_500, false)] // gained at 1300, within the slack after the promise was made
+    public void IsDuringPromise_LimitsToThePromisePeriod(int memoryAge, int nowTick, bool expected)
+    {
+        Assert.Equal(expected, PromiseEvaluator.IsDuringPromise(memoryAge, nowTick, 1000, 901_000));
+    }
+
+    [Fact]
+    public void AbsentSigners_DeadlineMovesWhileNobodyCanBeJudged()
+    {
+        int extended = 0;
+        int deadline = PromiseEvaluator.AdjustRemedyDeadline(100_000, 120_000, 60_000, 2500, anyoneJudgeable: false, nobodyJudgeableBefore: false, ref extended);
+        Assert.Equal(122_500, deadline);
+        Assert.Equal(2500, extended);
+    }
+
+    [Fact]
+    public void AbsentSigners_ReturningLateGetsTheHoldTime()
+    {
+        int extended = 2500;
+        int deadline = PromiseEvaluator.AdjustRemedyDeadline(110_000, 130_000, 60_000, 2500, anyoneJudgeable: true, nobodyJudgeableBefore: true, ref extended);
+        Assert.Equal(170_000, deadline);
+        Assert.Equal(42_500, extended);
+    }
+
+    [Fact]
+    public void AbsentSigners_PresentSignersNeverMoveTheDeadline()
+    {
+        int extended = 0;
+        Assert.Equal(130_000, PromiseEvaluator.AdjustRemedyDeadline(110_000, 130_000, 60_000, 2500, anyoneJudgeable: true, nobodyJudgeableBefore: false, ref extended));
+        Assert.Equal(0, extended);
+    }
+
+    [Fact]
+    public void AbsentSigners_ExtensionIsCapped()
+    {
+        int extended = PromiseEvaluator.MaxAbsenceExtensionTicks - 1000;
+        Assert.Equal(201_000, PromiseEvaluator.AdjustRemedyDeadline(199_000, 200_000, 60_000, 2500, anyoneJudgeable: false, nobodyJudgeableBefore: true, ref extended));
+        Assert.Equal(PromiseEvaluator.MaxAbsenceExtensionTicks, extended);
+        Assert.Equal(201_000, PromiseEvaluator.AdjustRemedyDeadline(201_000, 201_000, 60_000, 2500, anyoneJudgeable: false, nobodyJudgeableBefore: true, ref extended));
+        Assert.Equal(PromiseStatus.Unjudged, PromiseEvaluator.EvaluateRemedy(201_000, 201_000, 60_000, new int[0]));
+    }
+
+    [Fact]
+    public void AbsentSigners_SomeAwayOthersJudged()
+    {
+        // Away signers are left out of the list; the present one alone decides.
+        Assert.Equal(PromiseStatus.Kept, PromiseEvaluator.EvaluateRemedy(200_000, 200_000, 60_000, new[] { 100_000 }));
     }
 
     [Theory]

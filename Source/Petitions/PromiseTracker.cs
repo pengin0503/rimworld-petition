@@ -29,6 +29,14 @@ namespace Petitions
             {
                 Break(petition, nowTick);
             }
+            else if (status == PromiseStatus.Unjudged)
+            {
+                // Every signer stayed away even after the deadline was moved: nobody saw the promise kept or broken.
+                petition.state = PetitionState.Unjudged;
+                PetitionResponder.RemoveLetters(petition);
+                Messages.Message("Petitions_Message_PromiseUnjudged".Translate(petition.Petitioner.Named("PAWN"),
+                    petition.grievance.label.Named("GRIEVANCE")), petition.Petitioner, MessageTypeDefOf.NeutralEvent);
+            }
         }
 
         private static PromiseStatus EvaluateRemedy(Petition petition, int nowTick)
@@ -53,15 +61,18 @@ namespace Petitions
                 tmpClearSince.Add(petition.clearSinceTicks[i]);
             }
             int holdTicks = (int)(petition.grievance.remedyHoldDays * GenDate.TicksPerDay);
+            bool anyoneJudgeable = tmpClearSince.Count > 0;
+            petition.promiseDeadlineTick = PromiseEvaluator.AdjustRemedyDeadline(nowTick, petition.promiseDeadlineTick, holdTicks,
+                PetitionsGameComponent.UpdateIntervalTicks, anyoneJudgeable, petition.nobodyJudgeableLastUpdate, ref petition.absenceExtensionTicks);
+            petition.nobodyJudgeableLastUpdate = !anyoneJudgeable;
             PromiseStatus status = PromiseEvaluator.EvaluateRemedy(nowTick, petition.promiseDeadlineTick, holdTicks, tmpClearSince);
             tmpClearSince.Clear();
             return status;
         }
 
-        /// <summary>Whether any signer gained a matching memory after the promise was made.</summary>
+        /// <summary>Whether any signer gained a matching memory while the promise ran (after it was made, by its deadline).</summary>
         private static bool HasNewOccurrence(Petition petition, int nowTick)
         {
-            int sincePromise = nowTick - petition.promiseStartTick;
             for (int i = 0; i < petition.signers.Count; i++)
             {
                 List<Thought_Memory> memories = petition.signers[i].needs?.mood?.thoughts?.memories?.Memories;
@@ -71,7 +82,7 @@ namespace Petitions
                 }
                 for (int j = 0; j < memories.Count; j++)
                 {
-                    if (PromiseEvaluator.IsNewSincePromise(memories[j].age, sincePromise)
+                    if (PromiseEvaluator.IsDuringPromise(memories[j].age, nowTick, petition.promiseStartTick, petition.promiseDeadlineTick)
                         && petition.grievance.Matches(memories[j].def)
                         && memories[j].MoodOffset() < 0f)
                     {
