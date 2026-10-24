@@ -34,4 +34,15 @@ public class UltimatumModelTests
     {
         Assert.Equal(3 * 60000, UltimatumModel.DeadlineTicks);
     }
+
+    // Issue #3: give, resolve, give again; only the letter of the running ultimatum counts.
+    [Theory]
+    [InlineData(true, 2, 2, true)]
+    [InlineData(true, 2, 1, false)]
+    [InlineData(false, 1, 1, false)]
+    [InlineData(true, 0, 0, true)]
+    public void LetterIsCurrent_OnlyForTheRunningUltimatum(bool running, int count, int letter, bool expected)
+    {
+        Assert.Equal(expected, UltimatumModel.LetterIsCurrent(running, count, letter));
+    }
 }

@@ -30,7 +30,7 @@ namespace Petitions
 
             if (!settings.enableUltimatum)
             {
-                state.ultimatumDeadlineTick = -1;
+                EndUltimatum(state);
                 return;
             }
             if (pawn.MentalStateDef == MentalStateDefOf_GiveUpExit)
@@ -40,6 +40,7 @@ namespace Petitions
             if (state.stage == ResentmentStage.Ultimatum && state.ultimatumDeadlineTick < 0)
             {
                 state.ultimatumDeadlineTick = nowTick + UltimatumModel.DeadlineTicks;
+                state.ultimatumCount++;
                 ChoiceLetter_Ultimatum.Send(state);
                 return;
             }
@@ -51,7 +52,7 @@ namespace Petitions
             switch (UltimatumModel.Decide(nowTick, state.ultimatumDeadlineTick, state.stage, pendingPromise))
             {
                 case UltimatumDecision.Resolved:
-                    state.ultimatumDeadlineTick = -1;
+                    EndUltimatum(state);
                     Messages.Message("Petitions_UltimatumResolved".Translate(pawn.Named("PAWN")), pawn, MessageTypeDefOf.PositiveEvent);
                     break;
                 case UltimatumDecision.Leave:
@@ -75,10 +76,21 @@ namespace Petitions
             string reason = "Petitions_LeavingReason".Translate(pawn.Named("PAWN"), grievance.Named("GRIEVANCE"));
             if (pawn.mindState.mentalStateHandler.TryStartMentalState(giveUp, reason, forced: true, forceWake: true))
             {
-                state.ultimatumDeadlineTick = -1;
+                EndUltimatum(state);
                 state.resentment = ResentmentAfterLeaving;
                 state.stage = ResentmentModel.NextStage(ResentmentStage.Ultimatum, state.resentment);
             }
+        }
+
+        /// <summary>Ends the running ultimatum, if any, and removes its letter so it cannot act on a later one.</summary>
+        private static void EndUltimatum(PawnGrievanceState state)
+        {
+            if (!state.HasUltimatum)
+            {
+                return;
+            }
+            state.ultimatumDeadlineTick = -1;
+            ChoiceLetter_Ultimatum.RemoveFor(state.pawn);
         }
 
         private static void UpdateDisgruntled(Pawn pawn, bool wanted)

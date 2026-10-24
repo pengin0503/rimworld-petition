@@ -19,6 +19,11 @@ namespace Petitions
         /// <summary>When the ultimatum runs out, or -1 when there is none.</summary>
         public int ultimatumDeadlineTick = -1;
 
+        /// <summary>Counts the ultimatums this pawn gave, so each letter belongs to exactly one of them.</summary>
+        public int ultimatumCount;
+
+        public bool HasUltimatum => ultimatumDeadlineTick >= 0;
+
         public int lastPetitionTick = -1;
 
         private Dictionary<GrievanceDef, int> lastPetitionTickByGrievance = new Dictionary<GrievanceDef, int>();
@@ -72,6 +77,7 @@ namespace Petitions
             Scribe_Values.Look(ref resentment, "resentment");
             Scribe_Values.Look(ref stage, "stage", ResentmentStage.Calm);
             Scribe_Values.Look(ref ultimatumDeadlineTick, "ultimatumDeadlineTick", -1);
+            Scribe_Values.Look(ref ultimatumCount, "ultimatumCount");
             Scribe_Values.Look(ref lastPetitionTick, "lastPetitionTick", -1);
             Scribe_Collections.Look(ref lastPetitionTickByGrievance, "lastPetitionTickByGrievance", LookMode.Def, LookMode.Value);
             Scribe_Defs.Look(ref lastGrievance, "lastGrievance");
