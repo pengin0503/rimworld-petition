@@ -48,6 +48,8 @@ dotnet build Source/Petitions.slnx -c Release   # 1.7/Assemblies/Petitions.dll �
 dotnet test --solution Source/Petitions.slnx    # Core の単体テスト
 python3 -I tools/validate_mod_xml.py            # XML・翻訳・DefOf の検証
 tools/check_api_compat.sh                       # 1.7.4985 の参照でもコンパイルできるか
+python3 -I -m unittest discover -s tools -p 'test_*.py'   # 配布 ZIP 作成のテスト
+python3 -I tools/package_mod.py                 # dist/Petitions-<版>.zip を作る
 ```
 
 - ゲーム本体の DLL は、NuGet の参照パッケージ `Krafs.Rimworld.Ref` **1.7.4982-unstable**(Assembly-CSharp 1.7.9787.38423)から取得する。ゲームがインストールされていなくてもビルドできる。
@@ -65,7 +67,15 @@ tools/check_api_compat.sh                       # 1.7.4985 の参照でもコン
 
 > **参照パッケージのバージョンについて**: 1.7 のホスト(`RimWorld.dll`)には独自のアセンブリ解決処理がなく、MOD は .NET の標準の規則で読み込まれる。この規則では、実行中のゲームより新しい Assembly-CSharp を参照するMODは読み込めないおそれがある。そのため、参照はあえて古めの 1.7.4982 に固定し、新しいビルドで API が消えていないかは `tools/check_api_compat.sh` で確かめる。
 
-## ゲームで試す
+## 導入
+
+1. [Releases](https://github.com/pengin0503/rimworld-petition/releases) から `Petitions-<版>.zip` を取得する。リリースがまだない場合は、[CI](https://github.com/pengin0503/rimworld-petition/actions/workflows/ci.yml) の成功した実行の artifact `Petitions-dev` を使う(GitHub へのログインが必要)。GitHub が自動で付ける「Source code」は MOD 本体ではない。
+2. ZIP を展開し、中の `Petitions` フォルダを RimWorld の `Mods` フォルダに置く。`Mods/Petitions/About/About.xml` になっていることを確認する。
+3. MOD 一覧で「Petitions」を有効にする。セーブはバックアップしてから試す。
+
+配布 ZIP には `About/`・`LoadFolders.xml`・`Common/`・`1.7/Assemblies/Petitions.dll` だけを入れる(`tools/package_mod.py`)。ソース・テスト・ゲームの DLL は含めない。
+
+## 開発版を試す
 
 1. このリポジトリを RimWorld の `Mods` フォルダに置く(またはリンクを張る)。そのうえでビルドし、`1.7/Assemblies/Petitions.dll` を作る。
 2. MOD 一覧で「Petitions」を有効にする。
@@ -88,3 +98,8 @@ tools/check_api_compat.sh                       # 1.7.4985 の参照でもコン
 - 既存のセーブに途中から導入できる。ただし**途中で外すのは非推奨**(独自の思考・ヘディフ・手紙がセーブに残るため)。
 - ゲーム内での動作確認は、まだ実機で行っていない(開発環境に 1.7 の実行環境がないため)。ビルド、単体テスト、XML 検証、1.7.4982 と 1.7.4985 の参照でのコンパイルは通っている。
 - ゲームの DLL やデコンパイルしたコードは、このリポジトリに含めない。
+
+## CI とリリース
+
+- pull request と main への push で、ビルド・単体テスト・XML 検証・新しい参照でのコンパイル・配布 ZIP の作成を実行する(`.github/workflows/ci.yml`)。ZIP は artifact `Petitions-dev` として保存する。
+- 版は `About/About.xml` の `modVersion` と `Source/Petitions/Petitions.csproj` の `Version` をそろえる。main 上のコミットに `v<版>` のタグを push すると、同じ検査のあとプレリリースを作る(`.github/workflows/release.yml`)。

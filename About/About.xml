@@ -3,6 +3,7 @@
   <name>Petitions</name>
   <author>pengin0503</author>
   <packageId>pengin0503.petitions</packageId>
+  <modVersion>0.1.0</modVersion>
   <url>https://github.com/pengin0503/rimworld-petition</url>
   <supportedVersions>
     <li>1.7</li>
