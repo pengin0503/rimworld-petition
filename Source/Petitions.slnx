@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Petitions.Tests/Petitions.Tests.csproj" />
+  <Project Path="Petitions/Petitions.csproj" />
+</Solution>

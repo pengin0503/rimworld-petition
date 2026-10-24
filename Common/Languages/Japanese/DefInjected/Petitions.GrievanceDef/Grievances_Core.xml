@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Petitions_Sleeping.label>寝床</Petitions_Sleeping.label>
+  <Petitions_Sleeping.description>相部屋や屋外、地面で寝ていること。</Petitions_Sleeping.description>
+  <Petitions_Sleeping.demand>自分のまともな寝床</Petitions_Sleeping.demand>
+
+  <Petitions_Dining.label>食事</Petitions_Dining.label>
+  <Petitions_Dining.description>テーブルなしで食べること、生の食べ物や合成飼料を食べること。</Petitions_Dining.description>
+  <Petitions_Dining.demand>テーブルでのまともな食事</Petitions_Dining.demand>
+
+  <Petitions_Recreation.label>休息と娯楽</Petitions_Recreation.label>
+  <Petitions_Recreation.description>娯楽が足りていないこと。</Petitions_Recreation.description>
+  <Petitions_Recreation.demand>休みと、その時間にできる娯楽</Petitions_Recreation.demand>
+
+  <Petitions_Corpses.label>放置された遺体</Petitions_Corpses.label>
+  <Petitions_Corpses.description>遺体が放置されているのを見ること、入植者が埋葬されないままでいること。</Petitions_Corpses.description>
+  <Petitions_Corpses.demand>死者を弔うこと</Petitions_Corpses.demand>
+
+  <Petitions_OrganHarvest.label>臓器摘出</Petitions_OrganHarvest.label>
+  <Petitions_OrganHarvest.description>コロニーが人から臓器を摘出していると知っていること。</Petitions_OrganHarvest.description>
+  <Petitions_OrganHarvest.demand>臓器摘出をやめること</Petitions_OrganHarvest.demand>
+
+  <Petitions_Executions.label>処刑</Petitions_Executions.label>
+  <Petitions_Executions.description>コロニーが人を処刑していると知っていること。</Petitions_Executions.description>
+  <Petitions_Executions.demand>処刑をやめること</Petitions_Executions.demand>
+
+  <Petitions_PrisonerSale.label>人身売買</Petitions_PrisonerSale.label>
+  <Petitions_PrisonerSale.description>コロニーが囚人を売っていると知っていること。</Petitions_PrisonerSale.description>
+  <Petitions_PrisonerSale.demand>人を売るのをやめること</Petitions_PrisonerSale.demand>
+
+  <Petitions_Cannibalism.label>人の解体</Petitions_Cannibalism.label>
+  <Petitions_Cannibalism.description>コロニーが人の遺体を解体していると知っていること。</Petitions_Cannibalism.description>
+  <Petitions_Cannibalism.demand>人を解体するのをやめること</Petitions_Cannibalism.demand>
+
+</LanguageData>

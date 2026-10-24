@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- CustomChoiceLetterBase is defined in Core. -->
+
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>Petitions_Petition</defName>
+    <letterClass>Petitions.ChoiceLetter_Petition</letterClass>
+    <color>(200, 170, 90)</color>
+  </LetterDef>
+
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>Petitions_Ultimatum</defName>
+    <letterClass>Petitions.ChoiceLetter_Ultimatum</letterClass>
+    <color>(210, 90, 70)</color>
+  </LetterDef>
+
+</Defs>

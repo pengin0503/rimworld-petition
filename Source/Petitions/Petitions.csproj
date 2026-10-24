@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    RimWorld 1.7 (Waylith engine, .NET 10).
+    References come from the Krafs.Rimworld.Ref NuGet package by default, so the
+    project builds without the game installed. To build against a local game
+    instead, pass the folder that contains Assembly-CSharp.dll:
+
+      dotnet build -p:RimWorldManagedDir=/path/to/RimWorld/managed/dlls
+
+    Game assemblies are never copied to the output or committed to the repository.
+
+    The reference package version is pinned to the game build we test against
+    (1.7.4982 = Assembly-CSharp 1.7.9787.38423). On .NET a mod that references a
+    newer Assembly-CSharp than the running game may fail to load, so only raise
+    this version when the minimum supported game build is raised too.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Petitions</RootNamespace>
+    <AssemblyName>Petitions</AssemblyName>
+    <OutputPath>../../1.7/Assemblies/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <DebugType>none</DebugType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(RimWorldManagedDir)' == ''">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4982-unstable" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(RimWorldManagedDir)' != ''">
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldManagedDir)/Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityStubs">
+      <HintPath>$(RimWorldManagedDir)/UnityStubs.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Waylith">
+      <HintPath>$(RimWorldManagedDir)/Waylith.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

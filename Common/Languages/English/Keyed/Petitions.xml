@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings -->
+  <Petitions_SettingsCategory>Petitions</Petitions_SettingsCategory>
+  <Petitions_Settings_ThresholdMultiplier>Petition threshold: {0}</Petitions_Settings_ThresholdMultiplier>
+  <Petitions_Settings_ThresholdMultiplier_Tip>Multiplies how much grievance pressure a colonist needs before petitioning. Higher means fewer petitions.</Petitions_Settings_ThresholdMultiplier_Tip>
+  <Petitions_Settings_PressureDecay>Grievance decay per day: {0}</Petitions_Settings_PressureDecay>
+  <Petitions_Settings_PressureDecay_Tip>How much grievance pressure fades each day while its cause is gone.</Petitions_Settings_PressureDecay_Tip>
+  <Petitions_Settings_Reset>Reset to defaults</Petitions_Settings_Reset>
+  <Petitions_Settings_Section_Grievances>Grievances</Petitions_Settings_Section_Grievances>
+  <Petitions_Settings_Section_Frequency>How often petitions come</Petitions_Settings_Section_Frequency>
+  <Petitions_Settings_MinDaysBetween>Minimum days between petitions: {0}</Petitions_Settings_MinDaysBetween>
+  <Petitions_Settings_MaxOpen>Maximum unanswered petitions: {0}</Petitions_Settings_MaxOpen>
+  <Petitions_Settings_PawnCooldown>Days before the same colonist petitions again: {0}</Petitions_Settings_PawnCooldown>
+  <Petitions_Settings_GrievanceCooldown>Days before the same colonist raises the same grievance again: {0}</Petitions_Settings_GrievanceCooldown>
+  <Petitions_Settings_Expiry>Days before an unanswered petition counts as ignored: {0}</Petitions_Settings_Expiry>
+  <Petitions_Settings_Section_Escalation>Escalation</Petitions_Settings_Section_Escalation>
+  <Petitions_Settings_EnableDisgruntled>Resentful colonists work slower</Petitions_Settings_EnableDisgruntled>
+  <Petitions_Settings_EnableDisgruntled_Tip>At resentment 55 or more, a colonist becomes disgruntled and works at 85% speed until it drops below 45.</Petitions_Settings_EnableDisgruntled_Tip>
+  <Petitions_Settings_EnableUltimatum>Ultimatums: very resentful colonists may leave</Petitions_Settings_EnableUltimatum>
+  <Petitions_Settings_EnableUltimatum_Tip>At resentment 80 or more, a colonist gives an ultimatum. If their resentment is still 70 or more after 3 days and no promise to them is pending, they give up and leave the colony.</Petitions_Settings_EnableUltimatum_Tip>
+  <Petitions_Settings_Section_AutoResponse>Automatic answers (click to change)</Petitions_Settings_Section_AutoResponse>
+  <Petitions_AutoResponse_Ask>Ask me</Petitions_AutoResponse_Ask>
+  <Petitions_AutoResponse_AlwaysAccept>Always accept</Petitions_AutoResponse_AlwaysAccept>
+  <Petitions_AutoResponse_AlwaysReject>Always reject</Petitions_AutoResponse_AlwaysReject>
+
+  <!-- Petition letter -->
+  <Petitions_Letter_Label>Petition: {PAWN_labelShort}</Petitions_Letter_Label>
+  <Petitions_Letter_Intro>{PAWN_nameDef} has come forward with a petition about {GRIEVANCE}. [PAWN_pronoun] is asking for {DEMAND}.</Petitions_Letter_Intro>
+  <Petitions_Letter_Cosigners>Also signed by: {NAMES}.</Petitions_Letter_Cosigners>
+  <Petitions_Letter_Causes>What is behind it:</Petitions_Letter_Causes>
+  <Petitions_Letter_AcceptRemedy>Accept: promise to fix this within {DAYS} days. The promise is kept once these thoughts have been gone for {HOLD} day(s) for every signer. If it isn't, the promise is broken.</Petitions_Letter_AcceptRemedy>
+  <Petitions_Letter_AcceptCessation>Accept: promise to stop this for {DAYS} days. If any signer learns of it happening again in that time, the promise is broken.</Petitions_Letter_AcceptCessation>
+  <Petitions_Letter_Persuade>Persuade: {NEGOTIATOR_nameDef} tries to talk the signers out of it. Chance of success: {CHANCE}. If it fails, they resent it more than a plain refusal.</Petitions_Letter_Persuade>
+  <Petitions_Letter_PersuadeNoNegotiator>Persuade: nobody is available to negotiate.</Petitions_Letter_PersuadeNoNegotiator>
+  <Petitions_Letter_Reject>Reject: the signers' mood and resentment suffer, and they think less of the negotiator.</Petitions_Letter_Reject>
+  <Petitions_Letter_Expiry>If you don't answer within {DAYS} days, the petition counts as ignored.</Petitions_Letter_Expiry>
+  <Petitions_Letter_OptionAccept>Accept and promise</Petitions_Letter_OptionAccept>
+  <Petitions_Letter_OptionPersuade>Have {NEGOTIATOR_labelShort} persuade them ({CHANCE})</Petitions_Letter_OptionPersuade>
+  <Petitions_Letter_OptionPersuadeNoNegotiator>Persuade them</Petitions_Letter_OptionPersuadeNoNegotiator>
+  <Petitions_Letter_OptionReject>Reject</Petitions_Letter_OptionReject>
+  <Petitions_NoNegotiator>Nobody who isn't a signer can negotiate right now.</Petitions_NoNegotiator>
+
+  <!-- Messages -->
+  <Petitions_Message_Accepted>You promised {PAWN_nameDef} to deal with {GRIEVANCE} within {DAYS} days.</Petitions_Message_Accepted>
+  <Petitions_Message_Persuaded>{NEGOTIATOR_nameDef} talked {PAWN_nameDef} out of the petition.</Petitions_Message_Persuaded>
+  <Petitions_Message_PersuasionFailed>{NEGOTIATOR_nameDef} failed to talk {PAWN_nameDef} out of the petition. The signers feel brushed off.</Petitions_Message_PersuasionFailed>
+  <Petitions_Message_Rejected>You rejected {PAWN_nameDef}'s petition.</Petitions_Message_Rejected>
+  <Petitions_Message_Ignored>{PAWN_nameDef}'s petition went unanswered and was ignored.</Petitions_Message_Ignored>
+
+  <!-- Promises -->
+  <Petitions_PromiseKept_Label>Promise kept</Petitions_PromiseKept_Label>
+  <Petitions_PromiseKept_Text>The colony kept its promise to {PAWN_nameDef} about {GRIEVANCE}. The signers feel heard, and their resentment eases.</Petitions_PromiseKept_Text>
+  <Petitions_PromiseBroken_Label>Promise broken</Petitions_PromiseBroken_Label>
+  <Petitions_PromiseBroken_Text>The colony broke its promise to {PAWN_nameDef} about {GRIEVANCE}. The signers won't forget this soon.</Petitions_PromiseBroken_Text>
+
+  <!-- Escalation -->
+  <Petitions_Stage_Grumbling>{PAWN_nameDef} has started grumbling about how the colony treats [PAWN_objective].</Petitions_Stage_Grumbling>
+  <Petitions_Stage_Disgruntled>{PAWN_nameDef} is fed up and has stopped putting [PAWN_possessive] heart into work.</Petitions_Stage_Disgruntled>
+  <Petitions_Stage_Calm>{PAWN_nameDef} no longer holds a grudge against the colony.</Petitions_Stage_Calm>
+  <Petitions_UltimatumResolved>{PAWN_nameDef} has decided to stay after all.</Petitions_UltimatumResolved>
+  <Petitions_Ultimatum_Label>Ultimatum: {PAWN_labelShort}</Petitions_Ultimatum_Label>
+  <Petitions_Ultimatum_Text>{PAWN_nameDef} has had enough. [PAWN_pronoun] says that unless things change within {DAYS} days, [PAWN_pronoun] will leave the colony.\n\n[PAWN_possessive] resentment is {RESENTMENT} and must fall below {EXIT}. Keeping a promise or a successful persuasion lowers it; time alone is too slow.</Petitions_Ultimatum_Text>
+  <Petitions_Ultimatum_TextGrievance>Promising now to deal with {GRIEVANCE} ({DEMAND}) stops the clock until that promise is kept or broken. If it is broken, [PAWN_pronoun] leaves at once.</Petitions_Ultimatum_TextGrievance>
+  <Petitions_Ultimatum_TextNoGrievance>There is no grievance you can promise to deal with right now.</Petitions_Ultimatum_TextNoGrievance>
+  <Petitions_Ultimatum_OptionPromise>Promise to deal with {GRIEVANCE}</Petitions_Ultimatum_OptionPromise>
+  <Petitions_Ultimatum_OptionPromiseNone>Promise to deal with a grievance</Petitions_Ultimatum_OptionPromiseNone>
+  <Petitions_Ultimatum_NothingToPromise>No grievance without a petition in progress.</Petitions_Ultimatum_NothingToPromise>
+  <Petitions_Ultimatum_OptionWait>Let things be</Petitions_Ultimatum_OptionWait>
+  <Petitions_LeavingReason>{PAWN_nameDef}'s ultimatum ran out. The colony never dealt with {GRIEVANCE}.</Petitions_LeavingReason>
+  <Petitions_LeavingReason_Unknown>the grievances raised</Petitions_LeavingReason_Unknown>
+
+  <!-- Petitions tab -->
+  <Petitions_Tab_OpenPetitions>Unanswered petitions</Petitions_Tab_OpenPetitions>
+  <Petitions_Tab_Promises>Promises in progress</Petitions_Tab_Promises>
+  <Petitions_Tab_Colonists>Colonists: resentment and grievances</Petitions_Tab_Colonists>
+  <Petitions_Tab_None>None.</Petitions_Tab_None>
+  <Petitions_Tab_NoGrievances>No colonist has a grievance right now.</Petitions_Tab_NoGrievances>
+  <Petitions_Tab_TimeLeft>{0} left</Petitions_Tab_TimeLeft>
+  <Petitions_Tab_DaysLeft>Deadline in {0}</Petitions_Tab_DaysLeft>
+  <Petitions_Tab_Accept>Accept</Petitions_Tab_Accept>
+  <Petitions_Tab_Persuade>Persuade ({0})</Petitions_Tab_Persuade>
+  <Petitions_Tab_PersuadeTip>{NEGOTIATOR_nameDef} will try to talk them out of it.</Petitions_Tab_PersuadeTip>
+  <Petitions_Tab_Reject>Reject</Petitions_Tab_Reject>
+  <Petitions_Tab_RemedyStatus>Fixed for {0} of {1} signers</Petitions_Tab_RemedyStatus>
+  <Petitions_Tab_CessationStatus>Kept so far</Petitions_Tab_CessationStatus>
+  <Petitions_Tab_ResentmentTip>Resentment, 0 to 100. Grumbling from 30, disgruntled from 55, ultimatum from 80.</Petitions_Tab_ResentmentTip>
+  <Petitions_Tab_PressureTip>Grievance pressure / pressure needed to petition.</Petitions_Tab_PressureTip>
+  <Petitions_Tab_UltimatumLeft>({0} left)</Petitions_Tab_UltimatumLeft>
+  <Petitions_Tab_Negotiator>Negotiator:</Petitions_Tab_Negotiator>
+  <Petitions_Tab_NegotiatorTip>Who answers petitions and tries persuasion. Automatic picks the ideoligion leader, or else the best negotiator who didn't sign the petition.</Petitions_Tab_NegotiatorTip>
+  <Petitions_Tab_NegotiatorAuto>Automatic (now: {0})</Petitions_Tab_NegotiatorAuto>
+  <Petitions_Tab_NegotiatorAutoOption>Automatic</Petitions_Tab_NegotiatorAutoOption>
+  <Petitions_Tab_NoNegotiatorShort>nobody</Petitions_Tab_NoNegotiatorShort>
+  <Petitions_Tab_NegotiatorUnavailable>Unavailable right now; {0} negotiates instead.</Petitions_Tab_NegotiatorUnavailable>
+  <Petitions_Tab_History>Recent petitions</Petitions_Tab_History>
+  <Petitions_Outcome_Kept>promise kept</Petitions_Outcome_Kept>
+  <Petitions_Outcome_Broken>promise broken</Petitions_Outcome_Broken>
+  <Petitions_Outcome_Rejected>rejected</Petitions_Outcome_Rejected>
+  <Petitions_Outcome_Ignored>ignored</Petitions_Outcome_Ignored>
+  <Petitions_Outcome_Persuaded>talked out of it</Petitions_Outcome_Persuaded>
+  <Petitions_Outcome_PersuasionFailed>persuasion failed</Petitions_Outcome_PersuasionFailed>
+  <Petitions_Outcome_Withdrawn>withdrawn (no signers left)</Petitions_Outcome_Withdrawn>
+  <Petitions_StageLabel_Calm>calm</Petitions_StageLabel_Calm>
+  <Petitions_StageLabel_Grumbling>grumbling</Petitions_StageLabel_Grumbling>
+  <Petitions_StageLabel_Disgruntled>disgruntled</Petitions_StageLabel_Disgruntled>
+  <Petitions_StageLabel_Ultimatum>ultimatum</Petitions_StageLabel_Ultimatum>
+
+</LanguageData>

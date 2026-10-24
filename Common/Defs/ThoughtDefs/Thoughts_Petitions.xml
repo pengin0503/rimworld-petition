@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Mood thoughts for petition signers (spec section 2.4). -->
+
+  <ThoughtDef Abstract="True" Name="Petitions_MoodThoughtBase">
+    <stackLimit>3</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PetitionHeard</defName>
+    <durationDays>4</durationDays>
+    <stages>
+      <li>
+        <label>my petition was heard</label>
+        <description>They listened and promised to do something about it.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PromiseKept</defName>
+    <durationDays>8</durationDays>
+    <stages>
+      <li>
+        <label>promise kept</label>
+        <description>They promised to fix what we asked for, and they did. This place listens.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PromiseBroken</defName>
+    <durationDays>10</durationDays>
+    <stages>
+      <li>
+        <label>promise broken</label>
+        <description>They promised, and then nothing changed. I won't believe them so easily next time.</description>
+        <baseMoodEffect>-12</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PetitionRejected</defName>
+    <durationDays>5</durationDays>
+    <stages>
+      <li>
+        <label>petition rejected</label>
+        <description>I asked for something reasonable and was turned down.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PetitionIgnored</defName>
+    <durationDays>5</durationDays>
+    <stages>
+      <li>
+        <label>petition ignored</label>
+        <description>I spoke up, and nobody even bothered to answer.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_TalkedItThrough</defName>
+    <durationDays>2</durationDays>
+    <stages>
+      <li>
+        <label>talked it through</label>
+        <description>We talked it over. I don't like it, but I understand why things are the way they are.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_MoodThoughtBase">
+    <defName>Petitions_PersuasionFailed</defName>
+    <durationDays>5</durationDays>
+    <stages>
+      <li>
+        <label>brushed off</label>
+        <description>They tried to talk me out of it instead of listening.</description>
+        <baseMoodEffect>-8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Opinion of the negotiator. -->
+
+  <ThoughtDef Abstract="True" Name="Petitions_SocialThoughtBase">
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <stackLimit>10</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_SocialThoughtBase">
+    <defName>Petitions_RejectedMyPetition</defName>
+    <durationDays>10</durationDays>
+    <stages>
+      <li>
+        <label>rejected my petition</label>
+        <description>Turned down what I asked for.</description>
+        <baseOpinionOffset>-8</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef ParentName="Petitions_SocialThoughtBase">
+    <defName>Petitions_BrushedMeOff</defName>
+    <durationDays>15</durationDays>
+    <stages>
+      <li>
+        <label>brushed me off</label>
+        <description>Tried to talk me out of my petition.</description>
+        <baseOpinionOffset>-15</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

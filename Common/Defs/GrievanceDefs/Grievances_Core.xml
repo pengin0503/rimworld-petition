@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Grievances built only from Core thoughts (spec section 2.1).
+    Mood values noted below are from the RimWorld 1.7 Core data.
+    Cessation grievances may only list memory thoughts.
+  -->
+
+  <Petitions.GrievanceDef Abstract="True" Name="Petitions_RemedyBase">
+    <kind>Remedy</kind>
+    <pressureThreshold>25</pressureThreshold>
+    <promiseDays>5</promiseDays>
+    <remedyHoldDays>1</remedyHoldDays>
+    <persuasionDifficulty>0</persuasionDifficulty>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef Abstract="True" Name="Petitions_CessationBase">
+    <kind>Cessation</kind>
+    <!-- One ordinary execution (-5 for 6 days) is enough; one justified execution (-2 for 6 days) is not. -->
+    <pressureThreshold>20</pressureThreshold>
+    <promiseDays>15</promiseDays>
+    <persuasionDifficulty>0.15</persuasionDifficulty>
+  </Petitions.GrievanceDef>
+
+  <!-- ===== Remedy ===== -->
+
+  <Petitions.GrievanceDef ParentName="Petitions_RemedyBase">
+    <defName>Petitions_Sleeping</defName>
+    <label>sleeping conditions</label>
+    <description>Sleeping in barracks, outside or on the ground.</description>
+    <demand>a proper bed of my own</demand>
+    <thoughts>
+      <li>SleptInBarracks</li>  <!-- -7 to -1 -->
+      <li>SleptOutside</li>     <!-- -4 -->
+      <li>SleptOnGround</li>    <!-- -4 -->
+    </thoughts>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_RemedyBase">
+    <defName>Petitions_Dining</defName>
+    <label>meals</label>
+    <description>Eating without a table, or eating raw food or kibble.</description>
+    <demand>decent meals at a table</demand>
+    <thoughts>
+      <li>AteWithoutTable</li>  <!-- -3 -->
+      <li>AteRawFood</li>       <!-- -7 -->
+      <li>AteKibble</li>        <!-- -12 -->
+    </thoughts>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_RemedyBase">
+    <defName>Petitions_Recreation</defName>
+    <label>rest and recreation</label>
+    <description>Going without enough recreation.</description>
+    <demand>time off and something to do with it</demand>
+    <!-- Recreation thoughts are large (-5 to -20), so this needs more pressure. -->
+    <pressureThreshold>30</pressureThreshold>
+    <thoughts>
+      <li>NeedJoy</li>          <!-- -5 to -20; positive stages are ignored -->
+    </thoughts>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_RemedyBase">
+    <defName>Petitions_Corpses</defName>
+    <label>the dead left lying</label>
+    <description>Seeing corpses left out, or colonists left unburied.</description>
+    <demand>that the dead be laid to rest</demand>
+    <thoughts>
+      <li>ObservedLayingCorpse</li>         <!-- -4 -->
+      <li>ObservedLayingRottingCorpse</li>  <!-- -6 -->
+      <li>ColonistLeftUnburied</li>         <!-- -10 -->
+    </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ObservedLayingCorpse</li>
+      <li>ObservedLayingRottingCorpse</li>
+    </historyEvents>
+  </Petitions.GrievanceDef>
+
+  <!-- ===== Cessation ===== -->
+
+  <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
+    <defName>Petitions_OrganHarvest</defName>
+    <label>organ harvesting</label>
+    <description>Knowing that the colony harvests organs from people.</description>
+    <demand>an end to organ harvesting</demand>
+    <thoughts>
+      <li>KnowGuestOrganHarvested</li>     <!-- -5, 8 days -->
+      <li>KnowColonistOrganHarvested</li>  <!-- -5, 8 days -->
+    </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>HarvestedOrganFromGuest</li>
+      <li>HarvestedOrganFromColonist</li>
+    </historyEvents>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
+    <defName>Petitions_Executions</defName>
+    <label>executions</label>
+    <description>Knowing that the colony executes people.</description>
+    <demand>an end to executions</demand>
+    <thoughts>
+      <li>KnowGuestExecuted</li>     <!-- -2 to -6, 6 days -->
+      <li>KnowColonistExecuted</li>  <!-- -2 to -6, 6 days -->
+    </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ExecutedPrisoner</li>
+      <li>ExecutedGuest</li>
+      <li>ExecutedColonist</li>
+    </historyEvents>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
+    <defName>Petitions_PrisonerSale</defName>
+    <label>selling people</label>
+    <description>Knowing that the colony sells prisoners.</description>
+    <demand>an end to selling people</demand>
+    <persuasionDifficulty>0.1</persuasionDifficulty>
+    <thoughts>
+      <li>KnowPrisonerSold</li>  <!-- -3, 4 days -->
+    </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>SoldSlave</li>
+    </historyEvents>
+  </Petitions.GrievanceDef>
+
+  <Petitions.GrievanceDef ParentName="Petitions_CessationBase">
+    <defName>Petitions_Cannibalism</defName>
+    <label>butchering people</label>
+    <description>Knowing that the colony butchers human corpses.</description>
+    <demand>an end to butchering people</demand>
+    <thoughts>
+      <li>KnowButcheredHumanlikeCorpse</li>  <!-- -6, 6 days -->
+    </thoughts>
+    <!-- Precepts (including ideoligion ones) give their own thoughts for these events. -->
+    <historyEvents>
+      <li>ButcheredHuman</li>
+    </historyEvents>
+  </Petitions.GrievanceDef>
+
+</Defs>

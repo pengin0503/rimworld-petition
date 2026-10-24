@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <Petitions_PetitionHeard.stages.0.label>陳情が聞き入れられた</Petitions_PetitionHeard.stages.0.label>
+  <Petitions_PetitionHeard.stages.0.description>話を聞いてもらえたし、何とかすると約束してくれた。</Petitions_PetitionHeard.stages.0.description>
+
+  <Petitions_PromiseKept.stages.0.label>約束が果たされた</Petitions_PromiseKept.stages.0.label>
+  <Petitions_PromiseKept.stages.0.description>頼んだことを直すと約束して、本当に直してくれた。ここはちゃんと聞いてくれる場所だ。</Petitions_PromiseKept.stages.0.description>
+
+  <Petitions_PromiseBroken.stages.0.label>約束が破られた</Petitions_PromiseBroken.stages.0.label>
+  <Petitions_PromiseBroken.stages.0.description>約束したのに、何も変わらなかった。次はそう簡単には信じない。</Petitions_PromiseBroken.stages.0.description>
+
+  <Petitions_PetitionRejected.stages.0.label>陳情が却下された</Petitions_PetitionRejected.stages.0.label>
+  <Petitions_PetitionRejected.stages.0.description>まっとうなことを頼んだのに、断られた。</Petitions_PetitionRejected.stages.0.description>
+
+  <Petitions_PetitionIgnored.stages.0.label>陳情が無視された</Petitions_PetitionIgnored.stages.0.label>
+  <Petitions_PetitionIgnored.stages.0.description>声を上げたのに、誰も返事すらしてくれなかった。</Petitions_PetitionIgnored.stages.0.description>
+
+  <Petitions_TalkedItThrough.stages.0.label>話し合って納得した</Petitions_TalkedItThrough.stages.0.label>
+  <Petitions_TalkedItThrough.stages.0.description>よく話し合った。気に入らないが、なぜこうなっているのかは分かった。</Petitions_TalkedItThrough.stages.0.description>
+
+  <Petitions_PersuasionFailed.stages.0.label>話を聞いてもらえなかった</Petitions_PersuasionFailed.stages.0.label>
+  <Petitions_PersuasionFailed.stages.0.description>話を聞くどころか、言いくるめようとしてきた。</Petitions_PersuasionFailed.stages.0.description>
+
+  <Petitions_RejectedMyPetition.stages.0.label>陳情を却下した</Petitions_RejectedMyPetition.stages.0.label>
+  <Petitions_RejectedMyPetition.stages.0.description>頼んだことを断った。</Petitions_RejectedMyPetition.stages.0.description>
+
+  <Petitions_BrushedMeOff.stages.0.label>言いくるめようとした</Petitions_BrushedMeOff.stages.0.label>
+  <Petitions_BrushedMeOff.stages.0.description>陳情を取り下げるよう言いくるめようとした。</Petitions_BrushedMeOff.stages.0.description>
+
+</LanguageData>

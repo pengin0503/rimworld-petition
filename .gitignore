@@ -1,0 +1,15 @@
+# Build output
+bin/
+obj/
+1.7/Assemblies/
+
+# Never commit game assemblies or decompiled game code
+*.dll
+*.pdb
+
+# IDE
+.vs/
+.idea/
+*.user
+*.DotSettings.user
+.superpowers/
