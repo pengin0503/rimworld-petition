@@ -102,4 +102,4 @@ python3 -I tools/package_mod.py                 # dist/Petitions-<版>.zip を�
 ## CI とリリース
 
 - pull request と main への push で、ビルド・単体テスト・XML 検証・新しい参照でのコンパイル・配布 ZIP の作成を実行する(`.github/workflows/ci.yml`)。ZIP は artifact `Petitions-dev` として保存する。
-- 版は `About/About.xml` の `modVersion` と `Source/Petitions/Petitions.csproj` の `Version` をそろえる。main 上のコミットに `v<版>` のタグを push すると、同じ検査のあとプレリリースを作る(`.github/workflows/release.yml`)。
+- 版は `About/About.xml` の `modVersion` と `Source/Petitions/Petitions.csproj` の `Version` をそろえる。main 上のコミットに `v<版>` のタグを push するか、GitHubの Actions → Release → Run workflow で main を選んでタグを入力すると、同じ検査のあとプレリリースを作る(`.github/workflows/release.yml`。手動実行では検査に通った後でタグを作る)。
