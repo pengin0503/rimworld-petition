@@ -13,3 +13,7 @@ obj/
 *.user
 *.DotSettings.user
 .superpowers/
+
+# Packaged ZIPs
+dist/
+__pycache__/

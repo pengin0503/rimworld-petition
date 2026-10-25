@@ -48,6 +48,7 @@
   <Petitions_Message_PersuasionFailed>{NEGOTIATOR_nameDef}は{PAWN_nameDef}の説得に失敗しました。署名者は話を聞いてもらえなかったと感じています。</Petitions_Message_PersuasionFailed>
   <Petitions_Message_Rejected>{PAWN_nameDef}の陳情を却下しました。</Petitions_Message_Rejected>
   <Petitions_Message_Ignored>{PAWN_nameDef}の陳情は答えのないまま放置され、無視されたことになりました。</Petitions_Message_Ignored>
+  <Petitions_Message_PromiseUnjudged>{PAWN_nameDef}の陳情（{GRIEVANCE}）の署名者が誰も本拠地にいなかったため、約束は判定されずに終了しました。</Petitions_Message_PromiseUnjudged>
 
   <!-- 約束 -->
   <Petitions_PromiseKept_Label>約束が果たされた</Petitions_PromiseKept_Label>
@@ -102,6 +103,7 @@
   <Petitions_Outcome_Persuaded>説得して取り下げさせた</Petitions_Outcome_Persuaded>
   <Petitions_Outcome_PersuasionFailed>説得に失敗</Petitions_Outcome_PersuasionFailed>
   <Petitions_Outcome_Withdrawn>取り下げ(署名者がいなくなった)</Petitions_Outcome_Withdrawn>
+  <Petitions_Outcome_Unjudged>終了(署名者が不在だった)</Petitions_Outcome_Unjudged>
   <Petitions_StageLabel_Calm>平常</Petitions_StageLabel_Calm>
   <Petitions_StageLabel_Grumbling>不平</Petitions_StageLabel_Grumbling>
   <Petitions_StageLabel_Disgruntled>怠業</Petitions_StageLabel_Disgruntled>

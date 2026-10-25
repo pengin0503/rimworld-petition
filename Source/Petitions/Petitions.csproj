@@ -27,6 +27,9 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <DebugType>none</DebugType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Keep equal to About/About.xml modVersion; tools/package_mod.py checks it. -->
+    <Version>0.1.0</Version>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(RimWorldManagedDir)' == ''">

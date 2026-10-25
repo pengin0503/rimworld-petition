@@ -13,17 +13,26 @@ namespace Petitions
     {
         public Pawn pawn;
 
+        /// <summary>
+        /// Which of the pawn's ultimatums this letter is about (<see cref="PawnGrievanceState.ultimatumCount"/>).
+        /// Letters saved before this existed load as 0, which matches a pawn's first ultimatum.
+        /// </summary>
+        public int ultimatumNumber;
+
         private PawnGrievanceState State => PetitionsGameComponent.Instance?.TryGetState(pawn);
 
-        public override bool CanShowInLetterStack =>
-            base.CanShowInLetterStack && !PetitionsGameComponent.IsGone(pawn) && State != null && State.ultimatumDeadlineTick >= 0;
+        /// <summary>The ultimatum this letter was sent for is still running; a later ultimatum has its own letter.</summary>
+        private bool IsCurrent(PawnGrievanceState state) =>
+            state != null && UltimatumModel.LetterIsCurrent(state.HasUltimatum, state.ultimatumCount, ultimatumNumber) && !PetitionsGameComponent.IsGone(pawn);
+
+        public override bool CanShowInLetterStack => base.CanShowInLetterStack && IsCurrent(State);
 
         public override IEnumerable<DiaOption> Choices
         {
             get
             {
                 PawnGrievanceState state = State;
-                if (ArchivedOnly || state == null || state.ultimatumDeadlineTick < 0 || PetitionsGameComponent.IsGone(pawn))
+                if (ArchivedOnly || !IsCurrent(state))
                 {
                     yield return Option_Close;
                     yield break;
@@ -33,7 +42,7 @@ namespace Petitions
                     ? "Petitions_Ultimatum_OptionPromiseNone".Translate().ToString()
                     : "Petitions_Ultimatum_OptionPromise".Translate(grievance.label.Named("GRIEVANCE")).ToString())
                 {
-                    action = () => Promise(state, grievance),
+                    action = () => Promise(state, grievance, ultimatumNumber),
                     resolveTree = true,
                 };
                 if (grievance == null)
@@ -74,10 +83,11 @@ namespace Petitions
             return best;
         }
 
-        private static void Promise(PawnGrievanceState state, GrievanceDef grievance)
+        private static void Promise(PawnGrievanceState state, GrievanceDef grievance, int number)
         {
             PetitionsGameComponent comp = PetitionsGameComponent.Instance;
-            if (comp == null || grievance == null || state.ultimatumDeadlineTick < 0 || comp.HasActivePetition(state.pawn, grievance))
+            if (comp == null || grievance == null || !UltimatumModel.LetterIsCurrent(state.HasUltimatum, state.ultimatumCount, number)
+                || comp.HasActivePetition(state.pawn, grievance))
             {
                 return;
             }
@@ -89,6 +99,7 @@ namespace Petitions
         {
             ChoiceLetter_Ultimatum letter = (ChoiceLetter_Ultimatum)LetterMaker.MakeLetter(PetitionsDefOf.Petitions_Ultimatum);
             letter.pawn = state.pawn;
+            letter.ultimatumNumber = state.ultimatumCount;
             letter.Label = "Petitions_Ultimatum_Label".Translate(state.pawn.Named("PAWN"));
             GrievanceDef grievance = PromisableGrievance(state);
             letter.Text = "Petitions_Ultimatum_Text".Translate(state.pawn.Named("PAWN"),
@@ -102,10 +113,24 @@ namespace Petitions
             Find.LetterStack.ReceiveLetter(letter);
         }
 
+        /// <summary>Takes the pawn's ultimatum letters off the stack once that ultimatum is over.</summary>
+        public static void RemoveFor(Pawn pawn)
+        {
+            List<Letter> letters = Find.LetterStack.LettersListForReading;
+            for (int i = letters.Count - 1; i >= 0; i--)
+            {
+                if (letters[i] is ChoiceLetter_Ultimatum letter && letter.pawn == pawn)
+                {
+                    Find.LetterStack.RemoveLetter(letter);
+                }
+            }
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_References.Look(ref pawn, "pawn");
+            Scribe_Values.Look(ref ultimatumNumber, "ultimatumNumber");
         }
     }
 }

@@ -1,0 +1,47 @@
+# Builds and tests the mod on every pull request and push to main, and uploads an install-ready ZIP.
+# The build uses the public Krafs.Rimworld.Ref reference package; no game files are used or uploaded.
+# None of this runs RimWorld: in-game checks are listed in the design document (section 7).
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build (warnings are errors in the mod project)
+        run: dotnet build Source/Petitions.slnx -c Release
+      - name: Core unit tests
+        run: dotnet test --solution Source/Petitions.slnx -c Release --no-build
+      - name: XML, translation and DefOf checks
+        run: python3 -I tools/validate_mod_xml.py
+      - name: Compile against the newest 1.7 reference
+        run: tools/check_api_compat.sh
+      - name: Packaging tests
+        run: python3 -I -m unittest discover -s tools -p 'test_*.py' -v
+      - name: Package
+        run: python3 -I tools/package_mod.py --output dist/Petitions-dev.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Petitions-dev
+          path: dist/Petitions-dev.zip
+          if-no-files-found: error
+          retention-days: 30
